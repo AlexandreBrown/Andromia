@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Andromia</string>
+
+    <string name="navigation_drawer_open">Ouvrir le volet navigation</string>
+    <string name="navigation_drawer_close">Fermer le volet navigation</string>
+    <string name="nav_header_title">Navigation</string>
+    <string name="nav_header_subtitle">Andromia</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Se déconnecter</string>
+</resources>
