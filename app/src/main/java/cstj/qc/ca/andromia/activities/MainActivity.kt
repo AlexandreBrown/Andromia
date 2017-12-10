@@ -1,7 +1,5 @@
-package cstj.qc.ca.andromia
+package cstj.qc.ca.andromia.activities
 
-import android.app.Fragment
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -10,15 +8,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
-import cstj.qc.ca.andromia.fragments.AccueilFragment
+import cstj.qc.ca.andromia.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-                                            AccueilFragment.OnFragmentInteractionListener {
-    override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +28,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.contentFrame,AccueilFragment.newInstance())
-        transaction.commit()
+        //val transaction = fragmentManager.beginTransaction()
+        //transaction.replace(R.id.contentFrame,AccueilFragment.newInstance())
+        //transaction.commit()
     }
 
     override fun onBackPressed() {
