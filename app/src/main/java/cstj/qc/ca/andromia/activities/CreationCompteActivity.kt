@@ -1,5 +1,6 @@
 package cstj.qc.ca.andromia.activities
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,10 @@ import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.models.Validator
 import kotlinx.android.synthetic.main.activity_connexion.*
 import kotlinx.android.synthetic.main.activity_creation_compte.*
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+
+
 
 class CreationCompteActivity : AppCompatActivity() {
 
@@ -23,8 +28,11 @@ class CreationCompteActivity : AppCompatActivity() {
                     if(signup_et_password.length() > 0){
                         if(signup_et_confirm_password.length() > 0){
                             if(signup_et_password.text.toString().equals(signup_et_confirm_password.text.toString())){
-                                Toast.makeText(this,"OK!", Toast.LENGTH_SHORT).show()
-
+                                val key = "FCCB35B2542B878D86E8CC25773E4"
+                                val prefs = this.getSharedPreferences("cstj.qc.ca.andromia.explorateur", Context.MODE_PRIVATE)
+                                prefs.edit().putString("cstj.qc.ca.andromia.explorateur",key).apply()
+                                val keyRetrieved = prefs.getString("cstj.qc.ca.andromia.explorateur","")
+                                Toast.makeText(this,"Explorateur : $keyRetrieved", Toast.LENGTH_SHORT).show()
                             }else{
                                 signup_et_confirm_password.setError("Les mots de passe ne sont pas identiques")
                             }
