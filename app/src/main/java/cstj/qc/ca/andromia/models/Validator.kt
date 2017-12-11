@@ -4,7 +4,6 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class Validator {
-
     companion object {
         fun emailValidator(email: String): Boolean {
             val pattern: Pattern
@@ -15,5 +14,4 @@ class Validator {
             return matcher.matches()
         }
     }
-
 }
