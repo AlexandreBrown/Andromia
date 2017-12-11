@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".activities.CreationCompteActivity"
     android:background="@drawable/login_background"
-    tools:context=".activities.ConnexionActivity"
     android:orientation="vertical"
     android:gravity="center">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:layout_marginTop="20dp"
         android:src="@drawable/logo"
         android:contentDescription="@string/andromia" />
@@ -21,17 +21,30 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical"
-        android:gravity="top">
+        android:gravity="center">
 
         <EditText
-            android:id="@+id/login_et_email"
+            android:id="@+id/signup_et_name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:inputType="textPersonName"
+            android:textSize="14sp"
+            android:background="@drawable/black_rounded"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:hint="@string/hint_name"
+            android:layout_marginBottom="15dp">
+            <requestFocus/>
+        </EditText>
+
+        <EditText
+            android:id="@+id/signup_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/signup_et_name"
             android:inputType="textEmailAddress"
             android:textSize="14sp"
             android:background="@drawable/black_rounded"
@@ -39,65 +52,44 @@
             android:textColorHint="@color/colorPrimary"
             android:hint="@string/hint_email"
             android:layout_marginBottom="15dp">
-        <requestFocus/>
         </EditText>
 
         <EditText
-            android:id="@+id/login_et_password"
+            android:id="@+id/signup_et_password"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_below="@id/login_et_email"
+            android:layout_below="@id/signup_et_email"
             android:inputType="textPassword"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:background="@drawable/black_rounded"
-            android:hint="@string/hint_password"/>
+            android:hint="@string/hint_password"
+            android:layout_marginBottom="15dp"/>
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/signup_et_confirm_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/login_et_password"
-            android:layout_marginTop="35dp">
+            android:layout_height="35dp"
+            android:layout_below="@id/signup_et_password"
+            android:inputType="textPassword"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:background="@drawable/black_rounded"
+            android:hint="@string/hint_confirm_password"
+            android:layout_marginBottom="35dp"/>
 
-            <Button
-                android:id="@+id/login_btn_confirm"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:textSize="20sp"
-                android:text="@string/confirm"
-                android:background="@drawable/primary_rounded"/>
-
-        </RelativeLayout>
+        <Button
+            android:id="@+id/signup_btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/signup_et_confirm_password"
+            android:textSize="20sp"
+            android:text="@string/confirm"
+            android:background="@drawable/primary_rounded"/>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/black_rounded"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_no_account"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginBottom="10dp"/>
-        
-        <Button
-            android:id="@+id/login_btn_signup"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:background="@drawable/primary_rounded"
-            android:text="@string/create_account"/>
-
-    </LinearLayout>
 
 
 </LinearLayout>

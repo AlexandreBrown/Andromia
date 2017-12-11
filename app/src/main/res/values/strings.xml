@@ -10,12 +10,13 @@
     <string name="action_logout">Se déconnecter</string>
 
     <string name="login">Connexion</string>
-    <string name="accueil_header">accueil_header</string>
     <string name="andromia">Andromia</string>
-    <string name="login_hint_email">Entrez votre courriel</string>
-    <string name="login_hint_password">Entrez votre mot de passe</string>
-    <string name="retour">Retour</string>
+    <string name="hint_email">Entrez votre courriel</string>
+    <string name="hint_password">Entrez votre mot de passe</string>
+    <string name="back">Retour</string>
     <string name="login_no_account">Vous n\'avez pas de compte?</string>
     <string name="create_account">Créer un compte</string>
-    <string name="confirmer">Confirmer</string>
+    <string name="confirm">Confirmer</string>
+    <string name="hint_name">Veuillez entrer votre nom</string>
+    <string name="hint_confirm_password">Veuillez confirmer votre mot de passe</string>
 </resources>
