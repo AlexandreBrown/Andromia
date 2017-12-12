@@ -59,9 +59,13 @@ class ConnexionActivity : AppCompatActivity(){
             if(Validator.emailValidator(login_et_email.text.toString())){
                 if(login_et_password.length() > 0){
                     Toast.makeText(this,"OK!",LENGTH_SHORT).show()
-                    var intent = Intent(this,MainActivity::class.java)
+                    val intent = Intent(this,MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                    this.finish()
                 }else{
                     login_et_password.setError("Le mot de passe est invalide")
                 }

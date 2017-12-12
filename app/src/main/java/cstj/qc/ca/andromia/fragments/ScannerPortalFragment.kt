@@ -11,29 +11,15 @@ import android.view.ViewGroup
 import com.google.zxing.integration.android.IntentIntegrator
 import cstj.qc.ca.andromia.R
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ScannerPortalFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ScannerPortalFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class ScannerPortalFragment : Fragment() {
     private var listener: ScanResultReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         var integrator = IntentIntegrator.forFragment(this)
         integrator.setPrompt("Scanner votre prochaine exploration")
         integrator.setBeepEnabled(false)
+        integrator.setOrientationLocked(false)
         integrator.initiateScan()
     }
 

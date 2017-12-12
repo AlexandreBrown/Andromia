@@ -10,6 +10,7 @@ import cstj.qc.ca.andromia.models.Validator
 import kotlinx.android.synthetic.main.activity_connexion.*
 import kotlinx.android.synthetic.main.activity_creation_compte.*
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.SharedPreferences
 
 
@@ -33,6 +34,13 @@ class CreationCompteActivity : AppCompatActivity() {
                                 prefs.edit().putString("cstj.qc.ca.andromia.explorateur",key).apply()
                                 val keyRetrieved = prefs.getString("cstj.qc.ca.andromia.explorateur","")
                                 Toast.makeText(this,"Explorateur : $keyRetrieved", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this,MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                                this.finish()
                             }else{
                                 signup_et_confirm_password.setError("Les mots de passe ne sont pas identiques")
                             }
