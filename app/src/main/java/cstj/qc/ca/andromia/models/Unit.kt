@@ -2,7 +2,7 @@ package cstj.qc.ca.andromia.models
 
 import com.github.kittinunf.fuel.android.core.Json
 
-class Unit (jsonObj: Json) {
+class Unit (jsonObj: Json){
     val href:String = jsonObj.obj().getString("href")
     val name:String = jsonObj.obj().getString("name")
     val life:String = jsonObj.obj().getString("life")
