@@ -1,18 +1,64 @@
 package cstj.qc.ca.andromia.activities
 
+import android.Manifest
+import android.app.AlertDialog
+import android.app.Fragment
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
+import android.widget.Toast
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
+                                        , ScannerPortalFragment.OnFragmentInteractionListener{
+
+    private val REQUEST_CAMERA : Int = 1
+
+    override fun onRequestPermissionResult(requestCode: Int, permission: Array<String>, grantResults: Array<Int>) {
+        fun onRequestPermissionResult(requestCode:Int,permission:Array<String>,grantResults:Array<Int>){
+            when(requestCode){
+                REQUEST_CAMERA -> if(grantResults.isNotEmpty()){
+                    val cameraAccepted:Boolean = (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    if(cameraAccepted){
+                        Toast.makeText(this,"Permission allouée!", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(this,"Permission non-allouée!", Toast.LENGTH_LONG).show()
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                            if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                                displayAlertMessage("Vous devez autoriser l'accès aux deux permissions",
+                                        DialogInterface.OnClickListener { _, i ->
+                                            requestPermissions(Array<String>(android.support.design.R.id.auto){ Manifest.permission.CAMERA },REQUEST_CAMERA)
+                                        })
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun displayAlertMessage(message:String,listener: DialogInterface.OnClickListener){
+        AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK",listener)
+                .setNegativeButton("Annuler",null)
+                .create()
+                .show()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +74,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        //val transaction = fragmentManager.beginTransaction()
-        //transaction.replace(R.id.contentFrame,AccueilFragment.newInstance())
-        //transaction.commit()
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.contentFrame,ScannerPortalFragment.newInstance())
+        transaction.commit()
     }
 
     override fun onBackPressed() {
@@ -83,4 +129,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    companion object {
+        fun newInstance() : MainActivity{
+            return MainActivity()
+        }
+    }
+
 }
