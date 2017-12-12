@@ -40,17 +40,15 @@ class ScannerPortalFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         //retrieve scan result
         val scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
-        val parentActivity = this.activity as ScanResultReceiver
-
         if (scanningResult != null && scanningResult.contents != null && intent != null && resultCode == RESULT_OK) {
             //Nous avons un résultat
             val codeContent = scanningResult.contents
             // On envoie les données à l'activité
-            parentActivity.scanResultData(codeContent)
+            listener!!.scanResultData(codeContent)
 
         } else {
             // On envoie une exception
-            parentActivity.scanResultData(NoScanResultException("Exploration annulée!"))
+            listener!!.scanResultData(NoScanResultException("Exploration annulée!"))
         }
     }
 

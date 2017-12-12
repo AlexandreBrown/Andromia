@@ -1,6 +1,5 @@
 package cstj.qc.ca.andromia.activities
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -11,14 +10,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import com.google.zxing.integration.android.IntentIntegrator
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import com.google.zxing.integration.android.IntentResult
-import android.content.Intent
-
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
