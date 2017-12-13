@@ -16,21 +16,43 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
+import cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
+import cstj.qc.ca.andromia.models.Item
+import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
-                                        , ScannerPortalFragment.ScanResultReceiver{
+                                        , ScannerPortalFragment.ScanResultReceiver
+                                        , OnListItemFragmentInteractionListener {
     override fun scanResultData(codeContent: String) {
         Toast.makeText(this,"Code content : $codeContent",Toast.LENGTH_LONG).show()
     }
 
     override fun scanResultData(noScanData:ScannerPortalFragment.NoScanResultException) {
         Toast.makeText(this,noScanData.message,Toast.LENGTH_LONG).show()
+    }
+
+    override fun onListItemFragmentInteraction(item: Item?) {
+        Runnable {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+
+            when(item){
+                is Unit -> {
+                    //transaction.replace(R.id.contentFrame, UnitDetail.newInstance(item.href))
+                    //transaction.addToBackStack("DetailUnit${item.href}")
+                }
+            }
+            transaction.commit()
+        }.run()
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,22 +128,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+            R.id.nav_unit -> {
+                val transaction = fragmentManager.beginTransaction()
 
+                transaction.replace(R.id.contentFrame, UnitsExplorateurFragment.newInstance(1))
+                transaction.commit()
+            }
+            R.id.nav_exploration -> {
+                val transaction = fragmentManager.beginTransaction()
             }
             R.id.nav_slideshow -> {
 
             }
             R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
 
             }
         }

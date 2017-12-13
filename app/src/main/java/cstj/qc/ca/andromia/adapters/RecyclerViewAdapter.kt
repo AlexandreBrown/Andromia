@@ -6,6 +6,7 @@ import android.view.View
 import android.view.LayoutInflater
 import com.squareup.picasso.Picasso
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 
 import cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.card_unit.view.*
 /**
  * Created by Guillaume on 2017-12-12.
  */
-class RecyclerViewAdapter(private val mValues:List<Unit>, private val mListener: UnitsExplorateurFragment.OnListFragmentInteractionListener?): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val mValues:List<Unit>, private val mListener: OnListItemFragmentInteractionListener?): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_unit, parent,false )
@@ -25,7 +26,7 @@ class RecyclerViewAdapter(private val mValues:List<Unit>, private val mListener:
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
         holder.bind(mValues[position])
         holder.mView.setOnClickListener{
-            mListener!!.onListFragmentInteraction(holder.unit)
+            mListener!!.onListItemFragmentInteraction(holder.unit)
         }
     }
 

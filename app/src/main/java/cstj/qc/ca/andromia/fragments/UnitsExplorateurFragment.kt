@@ -16,7 +16,10 @@ import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.adapters.RecyclerViewAdapter
 import cstj.qc.ca.andromia.helpers.ANDROMIA_EXPLORATEUR_SERVICES
+import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.Unit
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * A fragment representing a list of Items.
@@ -31,7 +34,7 @@ import cstj.qc.ca.andromia.models.Unit
  */
 class UnitsExplorateurFragment : Fragment() {
     private var mColumnCount = 1
-    private var mListener: OnListFragmentInteractionListener? = null
+    private var mListener: OnListItemFragmentInteractionListener? = null
     private var units = mutableListOf<Unit>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +46,7 @@ class UnitsExplorateurFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle): View? {
+                              savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_unit_list, container, false)
 
         // Set the adapter
@@ -63,6 +66,7 @@ class UnitsExplorateurFragment : Fragment() {
                 view.adapter.notifyDataSetChanged()
             }
 
+
         }
         return view
     }
@@ -79,7 +83,7 @@ class UnitsExplorateurFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnListItemFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
@@ -91,9 +95,6 @@ class UnitsExplorateurFragment : Fragment() {
         mListener = null
     }
 
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(unit: Unit?)
-    }
 
     companion object {
 
