@@ -1,6 +1,11 @@
 package cstj.qc.ca.andromia.activities
 
+import android.app.ProgressDialog.show
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -12,6 +17,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
+import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
+import cstj.qc.ca.andromia.helpers.PREF_KEY
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -67,9 +74,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_logout -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_logout ->
+            {
+                val intent = Intent(this,ConnexionActivity::class.java)
+
+                // Suppression du token
+                val myPrefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                val keyRetrieved = myPrefs.getString(EXPLORATEUR_KEY,"")
+                Toast.makeText(this,"Explorateur avant suppression: $keyRetrieved", Toast.LENGTH_SHORT).show()
+                myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
+
+                val after = myPrefs.getString(EXPLORATEUR_KEY,"")
+                Toast.makeText(this,"Explorateur présent après suppression: ${if(after.length>0){after} else {"Aucun explorateur trouvé"}}", Toast.LENGTH_SHORT ).show()
+
+                // Retour à l'écran de connexion
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+
+                this.finish()
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

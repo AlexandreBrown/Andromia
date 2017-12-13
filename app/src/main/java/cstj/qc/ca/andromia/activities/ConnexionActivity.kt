@@ -1,5 +1,6 @@
 package cstj.qc.ca.andromia.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +12,8 @@ import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
+import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Unit
 import cstj.qc.ca.andromia.models.Validator
 import kotlinx.android.synthetic.main.activity_connexion.*
@@ -58,7 +61,13 @@ class ConnexionActivity : AppCompatActivity(){
         if(view.id == R.id.login_btn_signin){
             if(Validator.emailValidator(login_et_email.text.toString())){
                 if(login_et_password.length() > 0){
-                    Toast.makeText(this,"OK!",LENGTH_SHORT).show()
+                    val key = "FCCB35B2542B878D86E8CC25773E4" // Need to retrieve from server
+                    val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                    prefs.edit().putString(EXPLORATEUR_KEY,key).apply()
+                    val keyRetrieved = prefs.getString(EXPLORATEUR_KEY,"")
+
+                    Toast.makeText(this,"Explorateur : $keyRetrieved", Toast.LENGTH_SHORT).show()
+
                     val intent = Intent(this,MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -67,10 +76,10 @@ class ConnexionActivity : AppCompatActivity(){
                     overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
                     this.finish()
                 }else{
-                    login_et_password.setError("Le mot de passe est invalide")
+                    login_et_password.error = "Le mot de passe est invalide"
                 }
             }else{
-                login_et_email.setError("Le courriel est invalide")
+                login_et_email.error = "Le courriel est invalide"
             }
         }
     }

@@ -1,18 +1,16 @@
 package cstj.qc.ca.andromia.activities
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
+import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Validator
-import kotlinx.android.synthetic.main.activity_connexion.*
 import kotlinx.android.synthetic.main.activity_creation_compte.*
-import android.content.Context.MODE_PRIVATE
-import android.content.Intent
-import android.content.SharedPreferences
-
 
 
 class CreationCompteActivity : AppCompatActivity() {
@@ -29,11 +27,15 @@ class CreationCompteActivity : AppCompatActivity() {
                     if(signup_et_password.length() > 0){
                         if(signup_et_confirm_password.length() > 0){
                             if(signup_et_password.text.toString().equals(signup_et_confirm_password.text.toString())){
+
                                 val key = "FCCB35B2542B878D86E8CC25773E4"
-                                val prefs = this.getSharedPreferences("cstj.qc.ca.andromia.explorateur", Context.MODE_PRIVATE)
-                                prefs.edit().putString("cstj.qc.ca.andromia.explorateur",key).apply()
-                                val keyRetrieved = prefs.getString("cstj.qc.ca.andromia.explorateur","")
+                                val myPrefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                                myPrefs.edit().putString(EXPLORATEUR_KEY,key).apply()
+
+                                val keyRetrieved = myPrefs.getString(EXPLORATEUR_KEY,"")
+
                                 Toast.makeText(this,"Explorateur : $keyRetrieved", Toast.LENGTH_SHORT).show()
+
                                 val intent = Intent(this,MainActivity::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
