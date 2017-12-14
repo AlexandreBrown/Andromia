@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
 
                 val after = myPrefs.getString(EXPLORATEUR_KEY,"")
-                Toast.makeText(this,"Explorateur présent après suppression: ${if(after.length>0){after} else {"Aucun explorateur trouvé"}}", Toast.LENGTH_SHORT ).show()
+                Toast.makeText(this,"Explorateur présent après suppression: ${ if(after.isNotEmpty())after else "Aucun explorateur trouvé"}", Toast.LENGTH_LONG ).show()
 
                 // Retour à l'écran de connexion
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
