@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 transaction.commit()
             }
             R.id.nav_exploration -> {
-                val transaction = fragmentManager.beginTransaction()
+                //val transaction = fragmentManager.beginTransaction()
             }
             R.id.nav_slideshow -> {
 

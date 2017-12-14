@@ -12,14 +12,15 @@ import android.view.ViewGroup
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import com.google.gson.Gson
 
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.adapters.RecyclerViewAdapter
 import cstj.qc.ca.andromia.helpers.ANDROMIA_EXPLORATEUR_SERVICES
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.Unit
-import org.json.JSONArray
 import org.json.JSONObject
+
 
 /**
  * A fragment representing a list of Items.
@@ -57,15 +58,15 @@ class UnitsExplorateurFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
+
             view.adapter = RecyclerViewAdapter(units, mListener)
 
             val urlUnitsExplorateur = ANDROMIA_EXPLORATEUR_SERVICES + "/" + "uuidToken" + "/units"
 
-            urlUnitsExplorateur.httpGet().responseJson {request, response, result ->
+            /*urlUnitsExplorateur.httpGet().responseJson {request, response, result ->
                 createUnitList(result.get())
                 view.adapter.notifyDataSetChanged()
-            }
-
+            }*/
 
         }
         return view

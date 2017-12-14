@@ -12,10 +12,11 @@ class Unit (jsonObj: Json): Item(){
     val set:String = jsonObj.obj().getString("set")
     val number:String = jsonObj.obj().getString("number")
 
-    override fun getAffichage(): String {
-        return imageURL
-        return name
-        return number
-        return set
+    override fun getAffichage(): Array<String> {
+
+        val tabAfficher = arrayOf(name, imageURL, set, number)
+
+        return tabAfficher
+
     }
 }
