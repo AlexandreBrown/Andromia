@@ -8,46 +8,46 @@
     card_view:cardCornerRadius="2dp"
     card_view:cardElevation="2dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imgUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
 
-        <LinearLayout
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center">
 
+            <ImageView
+                android:id="@+id/imgUnit"
+                android:layout_width="60dp"
+                android:layout_height="80dp" />
+
             <TextView
                 android:id="@+id/lblNameUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:gravity="top"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_toEndOf="@id/imgUnit"/>
             <TextView
                 android:id="@+id/lblNumberUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/imgUnit"
+                android:layout_below="@id/lblNameUnit"/>
             <TextView
                 android:id="@+id/lblSetUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/imgUnit"
+                android:layout_below="@id/lblNumberUnit"/>
 
 
-        </LinearLayout>
-
-
-    </LinearLayout>
+        </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>

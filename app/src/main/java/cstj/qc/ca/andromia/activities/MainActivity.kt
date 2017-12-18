@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.fragments.DetailUnitExplorateurFragment
 import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
 import cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment
@@ -45,19 +46,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onListItemFragmentInteraction(item: Item?) {
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
+
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
 
             when(item){
                 is Unit -> {
-                    //transaction.replace(R.id.contentFrame, UnitDetail.newInstance(item.href))
-                    //transaction.addToBackStack("DetailUnit${item.href}")
+                    transaction.replace(R.id.contentFrame, DetailUnitExplorateurFragment.newInstance(token, item.href))
+                    transaction.addToBackStack("DetailUnit${item.href}")
                 }
             }
             transaction.commit()
         }.run()
-
 
     }
 
@@ -153,10 +156,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token = prefs.getString(EXPLORATEUR_KEY, "")
+
         when (item.itemId) {
             R.id.nav_unit -> {
                 val transaction = fragmentManager.beginTransaction()
-                transaction.replace(R.id.contentFrame, UnitsExplorateurFragment.newInstance(1))
+                transaction.replace(R.id.contentFrame, UnitsExplorateurFragment.newInstance(token, mHrefExplorateur))
                 transaction.commit()
             }
             R.id.nav_exploration -> {

@@ -35,6 +35,8 @@ import org.json.JSONObject
  */
 class UnitsExplorateurFragment : Fragment() {
     private var mColumnCount = 1
+    private lateinit var token:String
+    private lateinit var href:String
     private var mListener: OnListItemFragmentInteractionListener? = null
     private var units = mutableListOf<Unit>()
 
@@ -42,7 +44,8 @@ class UnitsExplorateurFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mColumnCount = arguments.getInt(ARG_COLUMN_COUNT)
+            token = arguments.getString(ARG_TOKEN)
+            href = arguments.getString(ARG_HREF)
         }
     }
 
@@ -61,12 +64,18 @@ class UnitsExplorateurFragment : Fragment() {
 
             view.adapter = RecyclerViewAdapter(units, mListener)
 
-            val urlUnitsExplorateur = BASE_URL + "explorateurs/" + "uuidToken" + "/units"
-
-            /*urlUnitsExplorateur.httpGet().responseJson {request, response, result ->
-                createUnitList(result.get())
-                view.adapter.notifyDataSetChanged()
-            }*/
+            if(token.isNotEmpty() && !href!!.isBlank()){
+                var request = (BASE_URL +"explorateurs/$href/units").httpGet()
+                request.httpHeaders["Authorization"] = "Bearer $token"
+                request.responseJson{ _, response, result ->
+                    when{
+                        (response.httpStatusCode == 200) ->{
+                            createUnitList(result.get())
+                            view.adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
 
         }
         return view
@@ -99,12 +108,14 @@ class UnitsExplorateurFragment : Fragment() {
 
     companion object {
 
-        private val ARG_COLUMN_COUNT = "column-count"
+        private val ARG_TOKEN = "token"
+        private val ARG_HREF = "href"
 
-        fun newInstance(columnCount: Int): UnitsExplorateurFragment {
+        fun newInstance(token: String, mHrefExplorateur: String? ): UnitsExplorateurFragment {
             val fragment = UnitsExplorateurFragment()
             val args = Bundle()
-            args.putInt(ARG_COLUMN_COUNT, columnCount)
+            args.putString(ARG_TOKEN, token)
+            args.putString(ARG_HREF, mHrefExplorateur)
             fragment.arguments = args
             return fragment
         }

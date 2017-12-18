@@ -24,9 +24,9 @@
         android:layout_toEndOf="@id/imgAffinity"/>
 
     <ImageView
-        android:id="@+id/imgUnit"
+        android:id="@+id/imgDetailUnit"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
@@ -36,7 +36,7 @@
         android:id="@+id/imgLife"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@id/imgUnit"
+        android:layout_below="@id/imgDetailUnit"
         android:layout_marginLeft="30dp"/>
 
     <TextView
@@ -45,8 +45,9 @@
         android:layout_height="75dp"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:foregroundGravity="center"
         android:textColor="#000000"
-        android:layout_below="@id/imgUnit"
+        android:layout_below="@id/imgDetailUnit"
         android:layout_toEndOf="@id/imgLife"
         android:gravity="center"
         />
@@ -55,7 +56,7 @@
         android:id="@+id/imgSpeed"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@id/imgUnit"
+        android:layout_below="@id/imgDetailUnit"
         android:layout_toEndOf="@id/lblLife"
         />
 
@@ -66,29 +67,99 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_below="@id/imgUnit"
+        android:foregroundGravity="center"
+        android:layout_below="@id/imgDetailUnit"
         android:layout_toEndOf="@id/imgSpeed"
         android:gravity="center"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/runesUnit"
+     <TextView
+        android:id="@+id/lblWeapon"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
-        android:name="cstj.qc.ca.andromia.fragments.UnitDetailFragment"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="cstj.qc.ca.andromia.fragments.UnitDetailFragment"
-        tools:listitem="@layout/card_runes"
-        android:layout_below="@id/imgSpeed"/>
+        android:layout_height="18dp"
+        android:text="@string/weapon"
+         android:layout_marginStart="5dp"
+         android:layout_below="@id/imgSpeed"/>
+
+
+    <ImageView
+        android:id="@+id/imgWeapon1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblWeapon"/>
+
+    <ImageView
+        android:id="@+id/imgWeapon2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/imgWeapon1"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblWeapon"/>
 
     <TextView
-        android:id="@+id/lblNumber"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_below="@id/runesUnit"
-        android:layout_toStartOf="@id/lblSet"/>
+        android:id="@+id/lblAbilities"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:text="@string/abilities"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/imgWeapon1"/>
+
+    <ImageView
+        android:id="@+id/imgAbility1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblAbilities"/>
+
+    <ImageView
+        android:id="@+id/imgAbility2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/imgAbility1"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblAbilities"/>
+
+    <ImageView
+        android:id="@+id/imgAbility3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/imgAbility2"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblAbilities"/>
+
+    <ImageView
+        android:id="@+id/imgAbility4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/imgAbility3"
+        android:src="@drawable/ic_menu_unit"
+        android:layout_below="@id/lblAbilities"/>
+
+
+
+    <TextView
+        android:id="@+id/lblUltimate"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:text="@string/ultimate"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/imgAbility1"/>
+
+    <ImageView
+        android:id="@+id/imgUltimate"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:src="@drawable/ic_menu_unit"
+
+        android:layout_below="@id/lblUltimate"/>
 
     <TextView
         android:id="@+id/lblSet"
@@ -97,8 +168,17 @@
         android:layout_alignParentEnd="true"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_below="@id/runesUnit"
+        android:layout_below="@id/imgUltimate"
         />
+
+    <TextView
+        android:id="@+id/lblNumber"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_below="@id/imgUltimate"
+        android:layout_toStartOf="@id/lblSet"/>
 
 </RelativeLayout>
 
