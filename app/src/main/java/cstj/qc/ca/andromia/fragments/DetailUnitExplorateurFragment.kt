@@ -1,6 +1,7 @@
 package cstj.qc.ca.andromia.fragments
 
 import android.app.Fragment
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.card_unit.*
 import kotlinx.android.synthetic.main.fragment_unit_detail.*
+import org.json.JSONArray
 
 /**
  * Created by Guillaume on 2017-12-17.
@@ -50,12 +52,18 @@ class DetailUnitExplorateurFragment: Fragment() {
                                 .load(unit.imageURL)
                                 .into(imgDetailUnit)
 
-                        afficherRunes(unit.affinitiy)
+                        afficherRuneAffinity(unit.affinity)
 
-                        //imgAffinity.setBackgroundResource(R.drawable.r)
-                        /*Picasso.with(imgAffinity.context)
-                                .load(iconeRune)
-                                .into(imgAffinity)*/
+                        afficherRunesAbilities(unit.abilities)
+
+                        afficherRunesWeapons(unit.weapons)
+
+                        if (!unit.ultimate.isBlank()){
+                            afficherRuneUltimate(unit.ultimate)
+                        }
+
+
+
                     }
 
 
@@ -91,12 +99,60 @@ class DetailUnitExplorateurFragment: Fragment() {
         }
     }
 
-    private fun afficherRunes(typeRune: String){
-        when(typeRune){
-            "air" ->{
-                imgAffinity.setBackgroundResource(R.drawable.runes.air)
+    private fun afficherRuneAffinity(typeRune: String){
+        val type = getRuneType(typeRune)
+
+        imgAffinity.setBackgroundResource(type)
+    }
+
+    private fun afficherRunesAbilities(lstAbilities: JSONArray){
+        for (i in 0..(lstAbilities.length()-1)){
+            val type = getRuneType(lstAbilities[i].toString())
+
+            when(i){
+                0 -> {
+                    imgAbility1.setBackgroundResource(type)
+                }
+                1 -> {
+                    imgAbility2.setBackgroundResource(type)
+                }
+                2 -> {
+                    imgAbility3.setBackgroundResource(type)
+                }
+                3 -> {
+                    imgAbility4.setBackgroundResource(type)
+                }
             }
         }
+    }
+
+    private fun afficherRunesWeapons(lstWeapons: JSONArray){
+        for (i in 0..(lstWeapons.length()-1)){
+            val type = getRuneType(lstWeapons[i].toString())
+
+            when(i){
+                0 -> {
+                    imgWeapon1.setBackgroundResource(type)
+                }
+                1 -> {
+                    imgWeapon2.setBackgroundResource(type)
+                }
+            }
+        }
+    }
+
+    private fun afficherRuneUltimate(typeRune: String){
+        val type = getRuneType(typeRune)
+
+        imgUltimate.setBackgroundResource(type)
+    }
+
+    private fun getRuneType(type:String): Int{
+
+        val ressourceId = resources.getIdentifier(type, "drawable", context.packageName)
+
+        return ressourceId
+
     }
 
 
