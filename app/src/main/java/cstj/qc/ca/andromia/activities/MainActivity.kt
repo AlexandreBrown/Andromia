@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
-        if(intent.getStringArrayExtra("hrefExplorateur") != null){
-            mHrefExplorateur = intent.getStringArrayExtra("hrefExplorateur").toString()
+        if(intent.getStringExtra("hrefExplorateur") != null){
+            mHrefExplorateur = intent.getStringExtra("hrefExplorateur").toString()
         }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -78,11 +78,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-        val token = prefs.getString(EXPLORATEUR_KEY, "")
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
-            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet()
-            request.httpHeaders["Authorization"] = "Bearer $token"
-            request.responseJson{ _, response, result ->
+            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
+            request.responseJson{ request, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())

@@ -65,7 +65,7 @@ class ConnexionActivity : AppCompatActivity(){
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                intent.putExtra("hrefExplorateur",result.get().obj().getJSONObject("user").getString("href"))
+                                intent.putExtra("hrefExplorateur",result.get().obj().getJSONObject("user").getString("href").removePrefix(BASE_URL+"explorateurs/"))
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
                                 hideKeyboard()

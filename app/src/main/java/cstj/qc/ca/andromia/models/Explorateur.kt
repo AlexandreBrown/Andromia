@@ -10,5 +10,4 @@ class Explorateur (jsonObj: Json) {
     val location:String = jsonObj.obj().getString("location")
     val unitsHref:String = jsonObj.obj().getJSONObject("units").getString("href")
     val href:String = jsonObj.obj().getString("href")
-    val token:String = jsonObj.obj().getString("token")
 }
