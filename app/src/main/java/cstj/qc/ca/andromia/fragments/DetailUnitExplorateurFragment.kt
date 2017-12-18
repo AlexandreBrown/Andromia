@@ -37,7 +37,7 @@ class DetailUnitExplorateurFragment: Fragment() {
 
         if(token.isNotEmpty() && !href!!.isBlank()){
             var request = ("$href").httpGet().header("Authorization" to "Bearer $token")
-            request.responseJson{ request, response, result ->
+            request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         val unit = Unit(result.get())
@@ -52,33 +52,25 @@ class DetailUnitExplorateurFragment: Fragment() {
                                 .load(unit.imageURL)
                                 .into(imgDetailUnit)
 
-                        afficherRuneAffinity(unit.affinity)
+                        if (!unit.affinity.isBlank()){
+                            afficherRuneAffinity(unit.affinity)
+                        }
 
-                        afficherRunesAbilities(unit.abilities)
+                        if (unit.abilities.length() > 0){
+                            afficherRunesAbilities(unit.abilities)
+                        }
 
-                        afficherRunesWeapons(unit.weapons)
+                        if (unit.weapons.length() > 0){
+                            afficherRunesWeapons(unit.weapons)
+                        }
 
                         if (!unit.ultimate.isBlank()){
                             afficherRuneUltimate(unit.ultimate)
                         }
-
-
-
                     }
-
-
-                    /*else -> {
-                        logout()
-                    }*/
                 }
             }
         }
-        /*404 -> {
-                    //TODO: Erreur
-                }
-            }
-        }*/
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_unit_detail, container, false)
     }
