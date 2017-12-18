@@ -25,6 +25,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import cstj.qc.ca.andromia.helpers.BASE_URL
+import android.app.Activity
+
+
 
 
 class ConnexionActivity : AppCompatActivity(){
@@ -59,6 +62,7 @@ class ConnexionActivity : AppCompatActivity(){
                     req_connexion.responseJson{ _, response, result ->
                         when{ // Si le courriel et mot de passe est bon
                             (response.httpStatusCode == 200) ->{
+                                hideKeyboard(mainContainer)
                                 createToken(result.get().obj().getString("token"))
                                 // On change d'activity
                                 val intent = Intent(this,MainActivity::class.java)
@@ -68,7 +72,6 @@ class ConnexionActivity : AppCompatActivity(){
                                 intent.putExtra("hrefExplorateur",result.get().obj().getJSONObject("user").getString("href").removePrefix(BASE_URL+"explorateurs/"))
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                                hideKeyboard()
                                 this.finish()
                             }
                             (response.httpStatusCode in 400..499) -> {
@@ -76,11 +79,11 @@ class ConnexionActivity : AppCompatActivity(){
                                     mSnackbar!!.dismiss()
                                 }
                                 login_et_password.text.clear()
-                                hideKeyboard()
+                                hideKeyboard(mainContainer)
                                 Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()
                             }
                             else -> {
-                                handleNoConnectionError(view)
+                                handleNoConnectionError(mainContainer)
                             }
                         }
                     }
@@ -101,7 +104,7 @@ class ConnexionActivity : AppCompatActivity(){
     }
 
     fun handleNoConnectionError(view:View){
-        hideKeyboard()
+        hideKeyboard(view)
         mSnackbar = Snackbar.make(mainContainer!!, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Réessayer") {
                     onLoginClick(view)
@@ -110,11 +113,9 @@ class ConnexionActivity : AppCompatActivity(){
     }
 
 
-    fun hideKeyboard(){
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS)
+    fun hideKeyboard(v:View){
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
     fun onCreateAccountClick(view: View){
