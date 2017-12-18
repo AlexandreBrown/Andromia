@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
+    android:background="@mipmap/login_background"
     tools:context=".activities.ConnexionActivity"
     android:orientation="vertical"
     android:gravity="center">

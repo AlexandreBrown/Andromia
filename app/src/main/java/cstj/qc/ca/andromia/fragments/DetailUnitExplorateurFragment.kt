@@ -92,11 +92,11 @@ class DetailUnitExplorateurFragment: Fragment() {
     }
 
     private fun afficherRunes(typeRune: String){
-        when(typeRune){
-            "air" ->{
-                imgAffinity.setBackgroundResource(R.drawable.runes.air)
-            }
-        }
+//        when(typeRune){
+//            "air" ->{
+//                imgAffinity.setBackgroundResource(R.drawable.runes.air)
+//            }
+//        }
     }
 
 
