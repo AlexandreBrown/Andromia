@@ -9,25 +9,17 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.core.Json
-import com.github.kittinunf.fuel.android.extension.jsonDeserializer
 import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
 import cstj.qc.ca.andromia.models.Validator
 import kotlinx.android.synthetic.main.activity_connexion.*
-import org.json.JSONArray
 import org.json.JSONObject
-import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
-import cstj.qc.ca.andromia.helpers.BASE_URL
-import android.app.Activity
-
-
 
 
 class ConnexionActivity : AppCompatActivity(){
@@ -41,13 +33,6 @@ class ConnexionActivity : AppCompatActivity(){
 
     }
 
-    fun createMutableListExplorateurs(json:Json): MutableList<Explorateur> {
-        val tabJson = json.array()
-        val lstExplo = mutableListOf<Explorateur>()
-        (0..(tabJson.length() -1)).mapTo(lstExplo) { Explorateur(Json(tabJson[it].toString())) }
-        return lstExplo
-    }
-
     fun onLoginClick(view:View){
         if(view.id == R.id.login_btn_signin){
             if(Validator.emailValidator(login_et_email.text.toString())){
@@ -56,42 +41,46 @@ class ConnexionActivity : AppCompatActivity(){
                     explorateurJSON.put("username",login_et_email.text.toString())
                     explorateurJSON.put("password",login_et_password.text.toString())
 
-                    val req_connexion = (BASE_URL+"connexion").httpPost()
-                    req_connexion.httpHeaders["Content-Type"] = "application/json"
-                    req_connexion.httpBody = explorateurJSON.toString().toByteArray()
-                    req_connexion.responseJson{ _, response, result ->
-                        when{ // Si le courriel et mot de passe est bon
-                            (response.httpStatusCode == 200) ->{
-                                hideKeyboard(mainContainer)
-                                createToken(result.get().obj().getString("token"))
-                                // On change d'activity
-                                val intent = Intent(this,MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                intent.putExtra("hrefExplorateur",result.get().obj().getJSONObject("user").getString("href").removePrefix(BASE_URL+"explorateurs/"))
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                                this.finish()
-                            }
-                            (response.httpStatusCode in 400..499) -> {
-                                if(mSnackbar != null){
-                                    mSnackbar!!.dismiss()
-                                }
-                                login_et_password.text.clear()
-                                hideKeyboard(mainContainer)
-                                Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()
-                            }
-                            else -> {
-                                handleNoConnectionError(mainContainer)
-                            }
-                        }
-                    }
+                    connecterExplorateur(explorateurJSON)
                 }else{
                     login_et_password.error = "Le mot de passe ne peut pas être vide"
                 }
             }else{
                 login_et_email.error = "Le format du courriel est invalide"
+            }
+        }
+    }
+
+    fun connecterExplorateur(explorateurJSON:JSONObject){
+        val request = (BASE_URL+"connexion").httpPost()
+        request.httpHeaders["Content-Type"] = "application/json"
+        request.httpBody = explorateurJSON.toString().toByteArray()
+        request.responseJson{ _, response, result ->
+            when{ // Si le courriel et mot de passe est bon
+                (response.httpStatusCode == 200) ->{
+                    hideKeyboard(container_login)
+                    createToken(result.get().obj().getString("token"))
+                    // On change d'activity
+                    val intent = Intent(this,MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.putExtra("hrefExplorateur",result.get().obj().getJSONObject("user").getString("href").removePrefix(BASE_URL+"explorateurs/"))
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                    this.finish()
+                }
+                (response.httpStatusCode in 400..499) -> {
+                    if(mSnackbar != null){
+                        mSnackbar!!.dismiss()
+                    }
+                    login_et_password.text.clear()
+                    hideKeyboard(container_login)
+                    Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    handleNoConnectionError(container_login)
+                }
             }
         }
     }
@@ -105,7 +94,7 @@ class ConnexionActivity : AppCompatActivity(){
 
     fun handleNoConnectionError(view:View){
         hideKeyboard(view)
-        mSnackbar = Snackbar.make(mainContainer!!, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
+        mSnackbar = Snackbar.make(view, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Réessayer") {
                     onLoginClick(view)
                 }

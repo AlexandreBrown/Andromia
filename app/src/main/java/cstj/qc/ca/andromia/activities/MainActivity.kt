@@ -76,16 +76,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        updateNavEmail()
 
+    }
+
+    fun updateNavEmail(){
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
             var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
-            request.responseJson{ request, response, result ->
+            request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-
                         nav_email.text = explorateur.courriel
                     }
                     else -> {
