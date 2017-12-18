@@ -16,7 +16,7 @@ import com.google.gson.Gson
 
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.adapters.RecyclerViewAdapter
-import cstj.qc.ca.andromia.helpers.ANDROMIA_EXPLORATEURS_SERVICE
+import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.Unit
 import org.json.JSONObject
@@ -61,7 +61,7 @@ class UnitsExplorateurFragment : Fragment() {
 
             view.adapter = RecyclerViewAdapter(units, mListener)
 
-            val urlUnitsExplorateur = ANDROMIA_EXPLORATEURS_SERVICE + "/" + "uuidToken" + "/units"
+            val urlUnitsExplorateur = BASE_URL + "explorateurs/" + "uuidToken" + "/units"
 
             /*urlUnitsExplorateur.httpGet().responseJson {request, response, result ->
                 createUnitList(result.get())

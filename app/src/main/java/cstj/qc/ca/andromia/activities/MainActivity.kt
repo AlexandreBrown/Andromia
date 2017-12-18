@@ -1,11 +1,8 @@
 package cstj.qc.ca.andromia.activities
 
-import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -15,21 +12,30 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
 import cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment
+import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
+import cstj.qc.ca.andromia.models.Explorateur
 import cstj.qc.ca.andromia.models.Item
 import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
                                         , ScannerPortalFragment.ScanResultReceiver
                                         , OnListItemFragmentInteractionListener {
+
+    private var mHrefExplorateur:String? = null
+
+
     override fun scanResultData(codeContent: String) {
         Toast.makeText(this,"Code content : $codeContent",Toast.LENGTH_LONG).show()
     }
@@ -61,6 +67,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
+        if(intent.getStringArrayExtra("hrefExplorateur") != null){
+            mHrefExplorateur = intent.getStringArrayExtra("hrefExplorateur").toString()
+        }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -68,6 +77,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token = prefs.getString(EXPLORATEUR_KEY, "")
+        if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
+            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet()
+            request.httpHeaders["Authorization"] = "Bearer $token"
+            request.responseJson{ _, response, result ->
+                when{
+                    (response.httpStatusCode == 200) ->{
+                        val explorateur = Explorateur(result.get())
+
+                        nav_email.text = explorateur.courriel
+                    }
+                    else -> {
+                        logout()
+                    }
+                }
+            }
+        }else{
+            logout()
+        }
     }
 
 
@@ -99,30 +128,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return when (item.itemId) {
             R.id.action_logout ->
             {
-                val intent = Intent(this,ConnexionActivity::class.java)
-
-                // Suppression du token
-                val myPrefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-                val keyRetrieved = myPrefs.getString(EXPLORATEUR_KEY,"")
-                Toast.makeText(this,"Explorateur avant suppression: $keyRetrieved", Toast.LENGTH_SHORT).show()
-                myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
-
-                val after = myPrefs.getString(EXPLORATEUR_KEY,"")
-                Toast.makeText(this,"Explorateur présent après suppression: ${ if(after.isNotEmpty())after else "Aucun explorateur trouvé"}", Toast.LENGTH_LONG ).show()
-
-                // Retour à l'écran de connexion
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
-
-                this.finish()
-
+                logout()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout(){
+        val intent = Intent(this,ConnexionActivity::class.java)
+
+        // Suppression du token
+        val myPrefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
+
+        // Retour à l'écran de connexion
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+
+        this.finish()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -130,7 +157,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_unit -> {
                 val transaction = fragmentManager.beginTransaction()
-
                 transaction.replace(R.id.contentFrame, UnitsExplorateurFragment.newInstance(1))
                 transaction.commit()
             }
