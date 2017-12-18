@@ -13,7 +13,7 @@ class Unit (jsonObj: Json): Item(){
     val affinity:String = jsonObj.obj().getString("affinity")
     val set:String = jsonObj.obj().getString("set")
     val number:String = jsonObj.obj().getString("number")
-    val runes:JSONObject = jsonObj.obj().getJSONObject("rune")
+    val runes:JSONObject = jsonObj.obj().getJSONObject("runes")
     val abilities:JSONArray = runes.getJSONArray("abilities")
     val weapons:JSONArray = runes.getJSONArray("weapons")
     val ultimate:String = runes.getString("ultimate")
