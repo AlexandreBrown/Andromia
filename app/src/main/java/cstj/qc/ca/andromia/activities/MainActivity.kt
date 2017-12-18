@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -15,6 +17,7 @@ import android.widget.Toast
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.dialogs.RunesDialog
 import cstj.qc.ca.andromia.fragments.DetailUnitExplorateurFragment
 import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
@@ -72,6 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if(intent.getStringExtra("hrefExplorateur") != null){
             mHrefExplorateur = intent.getStringExtra("hrefExplorateur").toString()
+        }else{
+            logout()
+            Toast.makeText(this,"Une erreur est survenue, veuillez vous reconnecter",Toast.LENGTH_SHORT).show()
         }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -106,9 +112,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     fun onScanClick(view:View){
-        val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-        transaction.commit()
+        if(view.id == R.id.main_btn_scan){
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            transaction.commit()
+        }
     }
 
 
@@ -157,6 +165,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.finish()
     }
 
+    fun onShowMyRunesClick(view:View){
+        if(view.id == R.id.main_btn_showMyRunes){
+            val dialog = RunesDialog()
+            dialog.show(fragmentManager,"runes_dialog")
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
 
@@ -171,12 +186,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_exploration -> {
                 //val transaction = fragmentManager.beginTransaction()
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
             }
         }
 
