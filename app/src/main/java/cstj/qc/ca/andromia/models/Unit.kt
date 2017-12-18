@@ -1,6 +1,8 @@
 package cstj.qc.ca.andromia.models
 
 import com.github.kittinunf.fuel.android.core.Json
+import org.json.JSONArray
+import org.json.JSONObject
 
 class Unit (jsonObj: Json): Item(){
     val href:String = jsonObj.obj().getString("href")
@@ -11,9 +13,9 @@ class Unit (jsonObj: Json): Item(){
     val affinitiy:String = jsonObj.obj().getString("affinity")
     val set:String = jsonObj.obj().getString("set")
     val number:String = jsonObj.obj().getString("number")
-    val runes = jsonObj.obj().get("runes")
-    //val weapons:List<String> = jsonObj.obj().accumulate("runes","weapons")
-    //val abilities = {}
+    val runes:JSONObject = jsonObj.obj().getJSONObject("rune")
+    val abilities:JSONArray = runes.getJSONArray("abilities")
+    val weapons:JSONArray = runes.getJSONArray("weapons")
 
 
     override fun getAffichage(): Array<String> {

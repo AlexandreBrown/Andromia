@@ -47,7 +47,6 @@ class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener:
             this.lblSetUnit.text = info[2]
             this.item = item
 
-            //val urlUnit = "$SERVEUR_ANDROMIA_SERVICE${item.set}/${unit.number}.png"
             Picasso.with(imgUnit.context)
                     .load(info[1])
                     .resize(100,150)

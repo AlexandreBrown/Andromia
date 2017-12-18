@@ -85,6 +85,7 @@ class UnitsExplorateurFragment : Fragment() {
         units.clear()
         val tabJson = json.array()
 
+
         for (i in 0.. (tabJson.length() - 1 )){
             units.add(Unit(Json(tabJson[i].toString())))
         }

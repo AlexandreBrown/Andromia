@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.squareup.picasso.Picasso
@@ -48,29 +49,23 @@ class DetailUnitExplorateurFragment: Fragment() {
                         Picasso.with(imgDetailUnit.context)
                                 .load(unit.imageURL)
                                 .into(imgDetailUnit)
+
+                        afficherRunes(unit.affinitiy)
+
+                        //imgAffinity.setBackgroundResource(R.drawable.r)
+                        /*Picasso.with(imgAffinity.context)
+                                .load(iconeRune)
+                                .into(imgAffinity)*/
                     }
+
+
                     /*else -> {
                         logout()
                     }*/
                 }
             }
         }
-        /*href.httpGet().responseJson { request, response, result ->
-            when (response.statusCode) {
-                200 -> {
-                    val succursale = Succursale(result.get())
-
-                    // Construction de l'interface graphique
-                    lblAppelatifSuccursaleDetail.text = succursale.appelatif
-                    lblAdresseSuccursaleDetail.text = succursale.adresse
-                    lblVilleSuccursaleDetail.text = succursale.ville
-                    lblProvinceSuccursaleDetail.text = " (${succursale.province})"
-                    lblCodePostalSuccursaleDetail.text = "${succursale.codePostal.substring(0,3)} ${succursale.codePostal.substring(3,6)}"
-                    lblTelephoneSuccursaleDetail.text = "${succursale.telephone.substring(0,3)}-${succursale.telephone.substring(3,6)}-${succursale.telephone.substring(6)}"
-                    lblTelecopieurSuccursaleDetail.text = "${succursale.telecopieur.substring(0,3)}-${succursale.telecopieur.substring(3,6)}-${succursale.telecopieur.substring(6)}"
-                    lblInformationSuccursaleDetail.text = succursale.information
-                }
-                404 -> {
+        /*404 -> {
                     //TODO: Erreur
                 }
             }
@@ -95,5 +90,15 @@ class DetailUnitExplorateurFragment: Fragment() {
             return fragment
         }
     }
+
+    private fun afficherRunes(typeRune: String){
+        when(typeRune){
+            "air" ->{
+                imgAffinity.setBackgroundResource(R.drawable.runes.air)
+            }
+        }
+    }
+
+
 
 }
