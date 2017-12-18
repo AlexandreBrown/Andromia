@@ -50,7 +50,7 @@ class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener:
             //val urlUnit = "$SERVEUR_ANDROMIA_SERVICE${item.set}/${unit.number}.png"
             Picasso.with(imgUnit.context)
                     .load(info[1])
-                    .resize(45,70)
+                    .resize(100,150)
                     .into(imgUnit)
         }
     }
