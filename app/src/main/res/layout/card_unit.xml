@@ -17,34 +17,73 @@
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/imgUnit"
-                android:layout_width="60dp"
-                android:layout_height="80dp" />
+                android:id="@+id/imgUnitList"
+                android:layout_width="125dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
 
             <TextView
-                android:id="@+id/lblNameUnit"
+                android:id="@+id/lblTitreNom"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+                android:text="Nom"
+                android:layout_gravity="center"
+                android:layout_toEndOf="@id/imgUnitList"/>
+
+            <TextView
+                android:id="@+id/lblNomUnitList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="top"
                 android:layout_gravity="center"
-                android:layout_toEndOf="@id/imgUnit"/>
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/lblTitreNom"/>
+
             <TextView
-                android:id="@+id/lblNumberUnit"
+                android:id="@+id/lblTitreNumber"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Number"
+                android:layout_gravity="center"
+                android:layout_toEndOf="@id/imgUnitList"
+                android:layout_below="@id/lblNomUnitList"/>
+
+            <TextView
+                android:id="@+id/lblNumberUnitList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/imgUnit"
-                android:layout_below="@id/lblNameUnit"/>
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/lblTitreNumber"
+                android:layout_below="@id/lblNomUnitList"/>
+
             <TextView
-                android:id="@+id/lblSetUnit"
+                android:id="@+id/lblTitreSet"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Set"
+                android:layout_gravity="center"
+                android:layout_toEndOf="@id/imgUnitList"
+                android:layout_below="@id/lblTitreNumber"/>
+
+            <TextView
+                android:id="@+id/lblSetUnitList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/imgUnit"
-                android:layout_below="@id/lblNumberUnit"/>
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/lblTitreSet"
+                android:layout_below="@id/lblNumberUnitList"/>
 
 
         </RelativeLayout>

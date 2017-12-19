@@ -8,7 +8,6 @@ import com.squareup.picasso.Picasso
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 
-import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.Item
 import kotlinx.android.synthetic.main.card_unit.view.*
 
@@ -34,10 +33,10 @@ class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener:
     }
 
     inner class ViewHolder(val mView:View):RecyclerView.ViewHolder(mView){
-        var lblNameUnit = mView.lblNameUnit
-        var lblNumberUnit = mView.lblNumberUnit
-        var lblSetUnit = mView.lblSetUnit
-        var imgUnit = mView.imgUnit
+        var lblNameUnit = mView.lblNomUnitList
+        var lblNumberUnit = mView.lblNumberUnitList
+        var lblSetUnit = mView.lblSetUnitList
+        var imgUnit = mView.imgUnitList
         var item: Item? = null
 
         fun bind(item: Item){

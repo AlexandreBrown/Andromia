@@ -3,6 +3,7 @@ package cstj.qc.ca.andromia.fragments
 import android.content.Context
 import android.os.Bundle
 import android.app.Fragment
+import android.content.Intent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,24 +16,15 @@ import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 
 import cstj.qc.ca.andromia.R
+import cstj.qc.ca.andromia.activities.ConnexionActivity
 import cstj.qc.ca.andromia.adapters.RecyclerViewAdapter
 import cstj.qc.ca.andromia.helpers.BASE_URL
+import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
+import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.Unit
 import org.json.JSONObject
 
-
-/**
- * A fragment representing a list of Items.
- *
- *
- * Activities containing this fragment MUST implement the [OnListFragmentInteractionListener]
- * interface.
- */
-/**
- * Mandatory empty constructor for the fragment manager to instantiate the
- * fragment (e.g. upon screen orientation changes).
- */
 class UnitsExplorateurFragment : Fragment() {
     private var mColumnCount = 1
     private lateinit var token:String
@@ -53,7 +45,6 @@ class UnitsExplorateurFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_unit_list, container, false)
 
-        // Set the adapter
         if (view is RecyclerView) {
             val context = view.getContext()
             if (mColumnCount <= 1) {
@@ -64,17 +55,22 @@ class UnitsExplorateurFragment : Fragment() {
 
             view.adapter = RecyclerViewAdapter(units, mListener)
 
+            // On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
             if(token.isNotEmpty() && !href!!.isBlank()){
-                var request = (BASE_URL +"explorateurs/$href/units").httpGet()
+                var request = (BASE_URL+"explorateurs/$href/units").httpGet()
                 request.httpHeaders["Authorization"] = "Bearer $token"
                 request.responseJson{ _, response, result ->
                     when{
                         (response.httpStatusCode == 200) ->{
                             createUnitList(result.get())
                             view.adapter.notifyDataSetChanged()
+                        }else -> {
+                            logout()
                         }
                     }
                 }
+            }else {
+                logout()
             }
 
         }
@@ -120,5 +116,21 @@ class UnitsExplorateurFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    private fun logout(){
+        val intent = Intent(this.context, ConnexionActivity::class.java)
+
+        // Suppression du token
+        val myPrefs = this.activity!!.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
+
+        // Retour à l'écran de connexion
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        this.activity!!.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+        this.activity!!.finish()
     }
 }
