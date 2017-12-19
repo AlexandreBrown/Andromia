@@ -23,9 +23,17 @@
     <string name="weapon">Weapons</string>
     <string name="abilities">Abilities</string>
     <string name="ultimate">Ultimate</string>
-    <string name="nomUnit">Nom</string>
-    <string name="numberUnit">Number</string>
-    <string name="setUnit">Set</string>
+    <string name="nomUnit">Nom: </string>
+    <string name="numberUnit">Number: </string>
+    <string name="setUnit">Set: </string>
+    <string name="affinityResult">Affinity: </string>
+    <string name="lifeResult">Life: </string>
+    <string name="speedResult">Speed: </string>
+    <string name="weaponsResult">Weapons: </string>
+    <string name="abilitiesResult">Abilities: </string>
+    <string name="cout">Coût</string>
+    <string name="runesAcquise">Runes acquises</string>
+
 
     <string name="emplacementDepart">Départ: </string>
     <string name="emplacementArrivee">Arrivé: </string>
@@ -41,4 +49,7 @@
     <string name="explorer">Explorer</string>
     <string name="unit_s">Unités</string>
     <string name="explorations">Explorations</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

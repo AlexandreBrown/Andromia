@@ -17,6 +17,7 @@ class Unit (jsonObj: Json): Item(){
     val abilities:JSONArray = runes.getJSONArray("abilities")
     val weapons:JSONArray = runes.getJSONArray("weapons")
     val ultimate:String = runes.getString("ultimate")
+    val kernel:JSONObject = jsonObj.obj().getJSONObject("kernel")
 
 
     override fun getAffichage(): Array<String> {

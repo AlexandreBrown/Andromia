@@ -5,7 +5,7 @@ package cstj.qc.ca.andromia.helpers
  */
 
 val BASE_URL = "https://andromia-damax55.c9users.io/"
-val SERVEUR_ANDROMIA_SERVICE = "http://420.cstj.qc.ca/ycharron/andromia/"
+val SERVEUR_ANDROMIA_SERVICE = "http://api.andromia.science/portals/"
 
 val PREF_KEY = "cstj.qc.ca.andromia"
 val EXPLORATEUR_KEY = PREF_KEY + ".explorateur"
