@@ -26,64 +26,64 @@
 
 
             <TextView
-                android:id="@+id/lblTitreNom"
+                android:id="@+id/lblTitreChamp1"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="top"
-                android:text="Nom"
+                android:text="@string/nomUnit"
                 android:layout_gravity="center"
                 android:layout_toEndOf="@id/imgUnitList"/>
 
             <TextView
-                android:id="@+id/lblNomUnitList"
+                android:id="@+id/lblChamp1List"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="top"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                android:layout_toEndOf="@id/lblTitreNom"/>
+                android:layout_toEndOf="@id/lblTitreChamp1"/>
 
             <TextView
-                android:id="@+id/lblTitreNumber"
+                android:id="@+id/lblTitreChamp2"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Number"
+                android:text="@string/numberUnit"
                 android:layout_gravity="center"
                 android:layout_toEndOf="@id/imgUnitList"
-                android:layout_below="@id/lblNomUnitList"/>
+                android:layout_below="@id/lblChamp1List"/>
 
             <TextView
-                android:id="@+id/lblNumberUnitList"
+                android:id="@+id/lblChamp2List"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold"
-                android:layout_toEndOf="@id/lblTitreNumber"
-                android:layout_below="@id/lblNomUnitList"/>
+                android:layout_toEndOf="@id/lblTitreChamp2"
+                android:layout_below="@id/lblChamp1List"/>
 
             <TextView
-                android:id="@+id/lblTitreSet"
+                android:id="@+id/lblTitreChamp3"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Set"
+                android:text="@string/setUnit"
                 android:layout_gravity="center"
                 android:layout_toEndOf="@id/imgUnitList"
-                android:layout_below="@id/lblTitreNumber"/>
+                android:layout_below="@id/lblTitreChamp2"/>
 
             <TextView
-                android:id="@+id/lblSetUnitList"
-                android:layout_width="match_parent"
+                android:id="@+id/lblChamp3List"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold"
-                android:layout_toEndOf="@id/lblTitreSet"
-                android:layout_below="@id/lblNumberUnitList"/>
+                android:layout_toEndOf="@id/lblTitreChamp3"
+                android:layout_below="@id/lblChamp2List"/>
 
 
         </RelativeLayout>

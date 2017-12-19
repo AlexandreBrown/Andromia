@@ -228,7 +228,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 transaction.commit()
             }
             R.id.nav_exploration -> {
-                //val transaction = fragmentManager.beginTransaction()
+                val transaction = fragmentManager.beginTransaction()
+                transaction.replace(R.id.contentFrame, ExplorationsExplorateurFragment.newInstance(token, mHrefExplorateur))
+                transaction.commit()
             }
         }
 

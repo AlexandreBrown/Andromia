@@ -21,7 +21,7 @@ class Unit (jsonObj: Json): Item(){
 
     override fun getAffichage(): Array<String> {
 
-        val tabAfficher = arrayOf(name, imageURL, set, number)
+        val tabAfficher = arrayOf(name, number, set, imageURL)
 
         return tabAfficher
 

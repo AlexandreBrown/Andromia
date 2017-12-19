@@ -23,6 +23,13 @@
     <string name="weapon">Weapons</string>
     <string name="abilities">Abilities</string>
     <string name="ultimate">Ultimate</string>
+    <string name="nomUnit">Nom</string>
+    <string name="numberUnit">Number</string>
+    <string name="setUnit">Set</string>
+
+    <string name="emplacementDepart">Départ: </string>
+    <string name="emplacementArrivee">Arrivé: </string>
+    <string name="dateExploration">Date: </string>
 
     <string name="rune">Rune</string>
     <string name="fermer">Fermer</string>
