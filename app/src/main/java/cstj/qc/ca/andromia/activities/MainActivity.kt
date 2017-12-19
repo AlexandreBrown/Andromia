@@ -18,10 +18,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.dialogs.RunesDialog
-import cstj.qc.ca.andromia.fragments.DetailUnitExplorateurFragment
-import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
-import cstj.qc.ca.andromia.fragments.ScannerPortalFragment
-import cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment
+import cstj.qc.ca.andromia.fragments.*
 import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
@@ -35,7 +32,11 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
                                         , ScannerPortalFragment.ScanResultReceiver
-                                        , OnListItemFragmentInteractionListener {
+                                        , OnListItemFragmentInteractionListener
+                                        , RunesDialog.OnRunesDialogListener{
+
+    private var mDialogRunes :RunesDialog? = null
+
 
     private var mHrefExplorateur:String? = null
 
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if(intent.getStringExtra("hrefExplorateur") != null){
             mHrefExplorateur = intent.getStringExtra("hrefExplorateur").toString()
+            mDialogRunes = RunesDialog.newInstance(mHrefExplorateur!!)
         }else{
             logout()
             Toast.makeText(this,"Une erreur est survenue, veuillez vous reconnecter",Toast.LENGTH_SHORT).show()
@@ -167,9 +169,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun onShowMyRunesClick(view:View){
         if(view.id == R.id.main_btn_showMyRunes){
-            val dialog = RunesDialog()
-            dialog.show(fragmentManager,"runes_dialog")
+            mDialogRunes!!.show(fragmentManager,"runes_dialog")
         }
+    }
+
+    override fun onFermerDialog() {
+        mDialogRunes!!.dismiss()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

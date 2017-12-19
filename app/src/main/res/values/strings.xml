@@ -24,6 +24,8 @@
     <string name="abilities">Abilities</string>
     <string name="ultimate">Ultimate</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rune">Rune</string>
+    <string name="fermer">Fermer</string>
+    <string name="type">Type</string>
+    <string name="quantite">Quantité</string>
 </resources>
