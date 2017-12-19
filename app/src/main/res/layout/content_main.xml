@@ -9,22 +9,6 @@
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <Button
-        android:id="@+id/main_btn_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Launch scanner"
-        android:onClick="onScanClick"/>
-
-    <Button
-        android:id="@+id/main_btn_showMyRunes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/main_btn_scan"
-        android:layout_alignParentEnd="true"
-        android:text="Mes runes"
-        android:onClick="onShowMyRunesClick"/>
-
     <FrameLayout
         android:id="@+id/contentFrame"
         android:layout_width="match_parent"

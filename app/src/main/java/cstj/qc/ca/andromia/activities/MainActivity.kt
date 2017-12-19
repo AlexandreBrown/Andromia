@@ -28,21 +28,49 @@ import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import android.widget.TextView
+
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
                                         , ScannerPortalFragment.ScanResultReceiver
                                         , OnListItemFragmentInteractionListener
-                                        , RunesDialog.OnRunesDialogListener{
-
+                                        , RunesDialog.OnRunesDialogListener
+                                        , EmplacementExplorateurFragment.OnEmplacementExplorateurInteractionListener{
     private var mDialogRunes :RunesDialog? = null
-
 
     private var mHrefExplorateur:String? = null
 
 
+    override fun onShowMyRunesClick() {
+        Runnable {
+            if(!mDialogRunes!!.isAdded)
+            {
+                mDialogRunes!!.show(fragmentManager,"runes_dialog")
+            }
+        }.run()
+    }
+
+    override fun onScanClick() {
+        Runnable {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            transaction.addToBackStack("EmplacementExplorateurFragment")
+            transaction.commit()
+        }.run()
+    }
+
     override fun scanResultData(codeContent: String) {
         Toast.makeText(this,"Code content : $codeContent",Toast.LENGTH_LONG).show()
+        Runnable {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            fragmentManager.popBackStack()
+            transaction.commit()
+        }.run()
     }
 
     override fun scanResultData(noScanData:ScannerPortalFragment.NoScanResultException) {
@@ -87,7 +115,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        updateNavEmail()
+
+
+
+        Runnable {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            transaction.commit()
+            updateNavEmail()
+        }.run()
 
     }
 
@@ -100,6 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
+                        var nav_email:TextView = nav_view.findViewById<TextView>(R.id.nav_email) as TextView
                         nav_email.text = explorateur.courriel
                     }
                     else -> {
@@ -109,15 +147,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }else{
             logout()
-        }
-    }
-
-
-    fun onScanClick(view:View){
-        if(view.id == R.id.main_btn_scan){
-            val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-            transaction.commit()
         }
     }
 
@@ -167,11 +196,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.finish()
     }
 
-    fun onShowMyRunesClick(view:View){
-        if(view.id == R.id.main_btn_showMyRunes){
-            mDialogRunes!!.show(fragmentManager,"runes_dialog")
-        }
-    }
 
     override fun onFermerDialog() {
         mDialogRunes!!.dismiss()
@@ -184,6 +208,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val token = prefs.getString(EXPLORATEUR_KEY, "")
 
         when (item.itemId) {
+            R.id.nav_explore -> {
+                val transaction = fragmentManager.beginTransaction()
+                transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+                transaction.commit()
+            }
             R.id.nav_unit -> {
                 val transaction = fragmentManager.beginTransaction()
                 transaction.replace(R.id.contentFrame, UnitsExplorateurFragment.newInstance(token, mHrefExplorateur))

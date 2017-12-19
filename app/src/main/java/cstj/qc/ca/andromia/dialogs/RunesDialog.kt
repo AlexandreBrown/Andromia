@@ -7,15 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.R.attr.layoutManager
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import com.squareup.picasso.Picasso
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.activities.ConnexionActivity
 import cstj.qc.ca.andromia.adapters.RuneRecyclerViewAdapter
@@ -23,12 +20,8 @@ import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
-import cstj.qc.ca.andromia.models.Rune
 import kotlinx.android.synthetic.main.dialog_runes.view.*
-import kotlinx.android.synthetic.main.fragment_rune.view.*
-import kotlinx.android.synthetic.main.fragment_rune_list.view.*
 import android.view.Gravity
-import android.graphics.Color.DKGRAY
 import android.widget.TextView
 
 
@@ -51,12 +44,6 @@ class RunesDialog : DialogFragment(){
         inflater = activity.layoutInflater
         dialogView = inflater.inflate(R.layout.dialog_runes,null)
 
-        if(context is OnRunesDialogListener){
-            mListener = context as OnRunesDialogListener
-        }else{
-            throw RuntimeException(context.toString() + " must implement OnRunesDialogListener")
-        }
-
         dialogView.dialog_runes_btn_fermer.setOnClickListener {
             mListener!!.onFermerDialog()
         }
@@ -70,8 +57,8 @@ class RunesDialog : DialogFragment(){
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
                         if(dialogView.list is RecyclerView){
-                            dialogView.list.layoutManager = LinearLayoutManager(context)
                             dialogView.list.adapter = RuneRecyclerViewAdapter(explorateur.lstRunes,mListener)
+                            dialogView.list.layoutManager = LinearLayoutManager(context)
                             dialogView.list.adapter.notifyDataSetChanged()
                         }
                     }
@@ -96,10 +83,16 @@ class RunesDialog : DialogFragment(){
                 .setCustomTitle(title)
                 .setView(dialogView)
 
-        var dialog:AlertDialog = builder.create()
+        return builder.create()
+    }
 
-
-        return dialog
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if(context is OnRunesDialogListener){
+            mListener = context as OnRunesDialogListener
+        }else{
+            throw RuntimeException(context.toString() + " must implement OnRunesDialogListener")
+        }
     }
 
 
@@ -116,7 +109,6 @@ class RunesDialog : DialogFragment(){
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         this.activity!!.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
-
         this.activity!!.finish()
     }
 

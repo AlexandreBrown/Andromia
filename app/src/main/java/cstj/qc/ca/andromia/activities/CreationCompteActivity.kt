@@ -133,7 +133,7 @@ class CreationCompteActivity : AppCompatActivity() {
         hideKeyboard(view)
         mSnackbar = Snackbar.make(view, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Réessayer") {
-                    onSignupClick(view)
+                    onSignupClick(signup_btn_signup)
                 }
         mSnackbar!!.show()
     }

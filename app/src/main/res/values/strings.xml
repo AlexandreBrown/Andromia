@@ -28,4 +28,10 @@
     <string name="fermer">Fermer</string>
     <string name="type">Type</string>
     <string name="quantite">Quantité</string>
+
+    <string name="emplacement">Emplacement :</string>
+    <string name="mes_runes">Mes runes</string>
+    <string name="explorer">Explorer</string>
+    <string name="unit_s">Unités</string>
+    <string name="explorations">Explorations</string>
 </resources>

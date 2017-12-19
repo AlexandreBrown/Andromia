@@ -96,7 +96,7 @@ class ConnexionActivity : AppCompatActivity(){
         hideKeyboard(view)
         mSnackbar = Snackbar.make(view, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Réessayer") {
-                    onLoginClick(view)
+                    onLoginClick(login_btn_signin)
                 }
         mSnackbar!!.show()
     }
