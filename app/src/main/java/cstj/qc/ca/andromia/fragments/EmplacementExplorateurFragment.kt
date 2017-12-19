@@ -1,7 +1,10 @@
 package cstj.qc.ca.andromia.fragments
 
+import android.R.attr.*
 import android.app.Fragment
 import android.content.Context
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +13,12 @@ import android.view.ViewGroup
 
 import cstj.qc.ca.andromia.R
 import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.*
+import android.content.res.Resources
+import android.graphics.*
+import android.view.Display
+import android.view.WindowManager
+import android.graphics.Bitmap
+import cstj.qc.ca.andromia.R.id.contentFrame
 
 
 /**
@@ -23,11 +32,6 @@ import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.*
  */
 class EmplacementExplorateurFragment : Fragment() {
     private var mListener: OnEmplacementExplorateurInteractionListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,6 +49,27 @@ class EmplacementExplorateurFragment : Fragment() {
         emplacement_explorateur_btn_affficher_runes.setOnClickListener {
             mListener!!.onShowMyRunesClick()
         }
+
+        drawMap(405,167)
+    }
+
+    fun drawMap(xPost:Int,yPos:Int){
+        val width = Resources.getSystem().displayMetrics.widthPixels
+        val height = Resources.getSystem().displayMetrics.heightPixels
+        var bitmap = Bitmap.createBitmap(width, height/2,Bitmap.Config.ARGB_8888)
+        var cnv = Canvas(bitmap)
+        var paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.color = Color.RED
+        paint.alpha = 123
+        val radius = 8
+        val density = resources.displayMetrics.density
+        cnv.drawCircle(
+                (xPost.toFloat()),
+                (yPos.toFloat()),
+                radius*density,
+                paint
+        )
+        emplacement_explorateur_point.setImageBitmap(bitmap)
     }
 
 

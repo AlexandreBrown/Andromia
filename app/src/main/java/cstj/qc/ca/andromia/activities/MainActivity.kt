@@ -144,8 +144,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        var nav_email:TextView = nav_view.findViewById<TextView>(R.id.nav_email) as TextView
-                        nav_email.text = explorateur.courriel
+                        var nav_email:TextView? = nav_view.findViewById(R.id.nav_email)
+                        if(nav_email != null){
+                            nav_email.text = explorateur.courriel
+                        }
                     }
                     else -> {
                         logout()
