@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/emplacement_explorateur_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,12 +10,26 @@
     android:orientation="vertical">
 
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:src="@mipmap/andromia"
-            android:contentDescription="@string/andromia" />
+            android:layout_weight="2">
+
+            <ImageView
+                android:id="@+id/emplacement_explorateur_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/andromia"
+                android:contentDescription="@string/andromia" />
+
+            <ImageView
+                android:id="@+id/emplacement_explorateur_point"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
         
         <RelativeLayout
             android:layout_width="match_parent"
