@@ -11,4 +11,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="cstj.qc.ca.andromia.fragments.UnitsExplorateurFragment"
-    tools:listitem="@layout/card_unit" />
+    tools:listitem="@layout/card_item" />

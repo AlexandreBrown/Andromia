@@ -14,21 +14,21 @@ import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 
-
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.activities.ConnexionActivity
 import cstj.qc.ca.andromia.adapters.RecyclerViewAdapter
 import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
-import cstj.qc.ca.andromia.models.Unit
+import cstj.qc.ca.andromia.models.Exploration
 
-class UnitsExplorateurFragment : Fragment() {
+
+class ExplorationsExplorateurFragment : Fragment() {
     private var mColumnCount = 1
     private lateinit var token:String
     private lateinit var href:String
     private var mListener: OnListItemFragmentInteractionListener? = null
-    private var units = mutableListOf<Unit>()
+    private var explorations = mutableListOf<Exploration>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class UnitsExplorateurFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_item_list, container, false)
 
+        // Set the adapter
         if (view is RecyclerView) {
             val context = view.getContext()
             if (mColumnCount <= 1) {
@@ -50,17 +51,16 @@ class UnitsExplorateurFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-
-            view.adapter = RecyclerViewAdapter(units, mListener)
+            view.adapter = RecyclerViewAdapter(explorations, mListener)
 
             // On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
             if(token.isNotEmpty() && !href!!.isBlank()){
-                var request = (BASE_URL+"explorateurs/$href/units").httpGet()
+                var request = (BASE_URL+"explorateurs/$href/explorations").httpGet()
                 request.httpHeaders["Authorization"] = "Bearer $token"
                 request.responseJson{ _, response, result ->
                     when{
                         (response.httpStatusCode == 200) ->{
-                            createUnitList(result.get())
+                            createExplorationList(result.get())
                             view.adapter.notifyDataSetChanged()
                         }else -> {
 
@@ -75,12 +75,12 @@ class UnitsExplorateurFragment : Fragment() {
         return view
     }
 
-    fun createUnitList(json: Json){
-        units.clear()
-        val tabJson = json.array()
+    private fun createExplorationList(json: Json){
+        explorations.clear()
 
+        val tabJson = json.array()
         for (i in 0.. (tabJson.length() - 1 )){
-            units.add(Unit(Json(tabJson[i].toString())))
+            explorations.add(Exploration(Json(tabJson[i].toString())))
         }
 
     }
@@ -105,8 +105,8 @@ class UnitsExplorateurFragment : Fragment() {
         private val ARG_TOKEN = "token"
         private val ARG_HREF = "href"
 
-        fun newInstance(token: String, mHrefExplorateur: String? ): UnitsExplorateurFragment {
-            val fragment = UnitsExplorateurFragment()
+        fun newInstance(token: String, mHrefExplorateur: String?): ExplorationsExplorateurFragment {
+            val fragment = ExplorationsExplorateurFragment()
             val args = Bundle()
             args.putString(ARG_TOKEN, token)
             args.putString(ARG_HREF, mHrefExplorateur)
