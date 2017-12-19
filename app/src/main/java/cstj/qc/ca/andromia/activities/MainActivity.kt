@@ -75,6 +75,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun scanResultData(noScanData:ScannerPortalFragment.NoScanResultException) {
         Toast.makeText(this,noScanData.message,Toast.LENGTH_LONG).show()
+        Runnable {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            fragmentManager.popBackStack()
+            transaction.commit()
+        }.run()
     }
 
     override fun onListItemFragmentInteraction(item: Item?) {
