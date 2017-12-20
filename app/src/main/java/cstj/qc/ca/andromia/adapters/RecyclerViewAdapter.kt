@@ -13,6 +13,7 @@ import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.models.Item
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.text.SimpleDateFormat
 
 /**
  * Created by Guillaume on 2017-12-12.

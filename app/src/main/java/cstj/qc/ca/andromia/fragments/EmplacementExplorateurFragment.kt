@@ -119,7 +119,7 @@ class EmplacementExplorateurFragment : Fragment() {
     }
 
     private fun updateLocation(location:String,alpha:Int){
-        if(!location.isBlank()){
+        if(!location.isBlank() && location !== "Nulle part"){
             when (location){
                 "Mordulkin" ->{
                     drawCurrentLocation(95,90,alpha)
@@ -186,23 +186,25 @@ class EmplacementExplorateurFragment : Fragment() {
     }
 
     fun drawCurrentLocation(xPost:Int,yPos:Int,alpha:Int){
-        val width = Resources.getSystem().displayMetrics.widthPixels
-        val height = Resources.getSystem().displayMetrics.heightPixels
-        var bitmap = Bitmap.createBitmap(width, height/2,Bitmap.Config.ARGB_8888)
-        var cnv = Canvas(bitmap)
-        var paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.color = Color.RED
-        paint.alpha = alpha
-        val radius = 8
-        val density = resources.displayMetrics.density
-        cnv.drawCircle(
-                (xPost.toFloat()),
-                (yPos.toFloat()),
-                radius*density,
-                paint
-        )
-        if(emplacement_explorateur != null){
-            emplacement_explorateur_point.setImageBitmap(bitmap)
+        if (isAdded && activity != null) {
+            val width = Resources.getSystem().displayMetrics.widthPixels
+            val height = Resources.getSystem().displayMetrics.heightPixels
+            var bitmap = Bitmap.createBitmap(width, height / 2, Bitmap.Config.ARGB_8888)
+            var cnv = Canvas(bitmap)
+            var paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            paint.color = Color.RED
+            paint.alpha = alpha
+            val radius = 8
+            val density = resources.displayMetrics.density
+            cnv.drawCircle(
+                    (xPost.toFloat()),
+                    (yPos.toFloat()),
+                    radius * density,
+                    paint
+            )
+            if (emplacement_explorateur != null) {
+                emplacement_explorateur_point.setImageBitmap(bitmap)
+            }
         }
     }
 
@@ -242,7 +244,7 @@ class EmplacementExplorateurFragment : Fragment() {
     companion object {
         private var ARG_HREF :String? = null
         @JvmStatic
-        fun newInstance(href:String) :EmplacementExplorateurFragment=
+        fun newInstance(href:String):EmplacementExplorateurFragment=
                 EmplacementExplorateurFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_HREF,href)

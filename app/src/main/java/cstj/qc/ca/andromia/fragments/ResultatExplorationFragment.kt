@@ -70,10 +70,6 @@ class ResultatExplorationFragment : Fragment() {
             exploration.put("unit", unitVide)
             mListener!!.onTerminerExplorationClick(exploration)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
 
         if(token.isNotEmpty() && !href!!.isBlank()){
             var request = (BASE_URL+"explorateurs/"+href).httpGet()
@@ -87,13 +83,12 @@ class ResultatExplorationFragment : Fragment() {
                         runesExplorateur = explorateur.lstRunes
                     }else -> {
                     location = ""
-                    }
+                }
                 }
             }
-
-            val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
-            //var request = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
-            url.httpGet().responseJson{ _, response, result ->
+            
+            var requestAndromia = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
+            requestAndromia.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         var resultat = AndromiaExploration(result.get())
@@ -143,6 +138,14 @@ class ResultatExplorationFragment : Fragment() {
         else{
             logout()
         }
+
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+
         return inflater.inflate(R.layout.fragment_exploration_resultat, container, false)
     }
 
