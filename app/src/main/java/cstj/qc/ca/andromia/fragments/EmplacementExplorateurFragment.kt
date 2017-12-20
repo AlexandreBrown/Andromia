@@ -101,13 +101,8 @@ class EmplacementExplorateurFragment : Fragment() {
         this.activity!!.finish()
     }
 
-<<<<<<< HEAD
-    fun updateLocation(location:String){
-        if(!location.isBlank() && location !== "Nulle part"){
-=======
     private fun updateLocation(location:String){
-        if(!location.isBlank()){
->>>>>>> 1fe8b9428a84c7c15215f529b5c7e74566d3de51
+        if(!location.isBlank() && location !== "Nulle part"){
             when (location){
                 "Mordukin" ->{
                     drawCurrentLocation(95,90)
@@ -228,7 +223,7 @@ class EmplacementExplorateurFragment : Fragment() {
     companion object {
         private var ARG_HREF :String? = null
         @JvmStatic
-        fun newInstance(href:String) :EmplacementExplorateurFragment=
+        fun newInstance(href:String):EmplacementExplorateurFragment=
                 EmplacementExplorateurFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_HREF,href)

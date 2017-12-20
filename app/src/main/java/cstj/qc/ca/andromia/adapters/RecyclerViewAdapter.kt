@@ -13,6 +13,7 @@ import cstj.qc.ca.andromia.fragments.OnListItemFragmentInteractionListener
 import cstj.qc.ca.andromia.models.Item
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.text.SimpleDateFormat
 
 /**
  * Created by Guillaume on 2017-12-12.
@@ -47,10 +48,13 @@ class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener:
 
             // Si c'est un Unit
             if(info.size == 4){
+                //this.lblSetUnit.text = info[2]
                 Picasso.with(imgUnit.context)
                         .load(info[3])
                         .into(imgUnit)
             }else {
+                //this.lblSetUnit.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(info[2])
+                  //      info[2]
                 modifierCard()
             }
             this.lblNameUnit.text = info[0]
