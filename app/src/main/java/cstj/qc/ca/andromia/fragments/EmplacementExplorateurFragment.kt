@@ -94,7 +94,7 @@ class EmplacementExplorateurFragment : Fragment() {
 
         //5
         valueAnimator.interpolator = LinearInterpolator()
-        valueAnimator.duration = 1000
+        valueAnimator.duration = 500
         valueAnimator.repeatCount = ValueAnimator.INFINITE
         valueAnimator.repeatMode = ValueAnimator.REVERSE
 
@@ -169,7 +169,7 @@ class EmplacementExplorateurFragment : Fragment() {
                 "Rafalo Land"->{
                     drawCurrentLocation(985,100,alpha)
                 }
-                "Deux-Étoiles"->{
+                "Deux-Étoile"->{
                     drawCurrentLocation(985,340,alpha)
                 }
                 "Bourok Torn"->{
