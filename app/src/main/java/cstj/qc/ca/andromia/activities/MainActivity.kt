@@ -53,21 +53,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onScanClick() {
+        /*val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")*/
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
             transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
             transaction.addToBackStack("EmplacementExplorateurFragment")
+            //transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2EFC7EF07276", mHrefExplorateur, token))
             transaction.commit()
         }.run()
     }
 
     override fun scanResultData(codeContent: String) {
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         Toast.makeText(this,"Code content : $codeContent",Toast.LENGTH_LONG).show()
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            //TODO: Remplacer par le fragment ResultatExplo
+            transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance(codeContent, mHrefExplorateur, token))
             fragmentManager.popBackStack()
             transaction.commit()
         }.run()
