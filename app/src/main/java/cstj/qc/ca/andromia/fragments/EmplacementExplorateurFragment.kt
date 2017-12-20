@@ -26,6 +26,7 @@ import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.view.*
 import org.json.JSONObject
 
 
@@ -71,8 +72,8 @@ class EmplacementExplorateurFragment : Fragment() {
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        updateLocation(explorateur.location)
-                        emplacement_explorateur.text = explorateur.location
+                        //updateLocation(explorateur.location)
+                        view!!.emplacement_explorateur.text = explorateur.location
                     }
                     else -> {
                         logout()
@@ -100,8 +101,13 @@ class EmplacementExplorateurFragment : Fragment() {
         this.activity!!.finish()
     }
 
+<<<<<<< HEAD
     fun updateLocation(location:String){
         if(!location.isBlank() && location !== "Nulle part"){
+=======
+    private fun updateLocation(location:String){
+        if(!location.isBlank()){
+>>>>>>> 1fe8b9428a84c7c15215f529b5c7e74566d3de51
             when (location){
                 "Mordukin" ->{
                     drawCurrentLocation(95,90)

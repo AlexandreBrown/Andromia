@@ -66,7 +66,7 @@ class ResultatExplorationFragment : Fragment() {
         }
 
         exploration_resultat_btn_Terminer.setOnClickListener {
-            var unitVide = JSONObject()
+            val unitVide = JSONObject()
             exploration.put("unit", unitVide)
             mListener!!.onTerminerExplorationClick(exploration)
         }
@@ -282,4 +282,4 @@ class ResultatExplorationFragment : Fragment() {
 
     }
 
-}// Required empty public constructor
+}
