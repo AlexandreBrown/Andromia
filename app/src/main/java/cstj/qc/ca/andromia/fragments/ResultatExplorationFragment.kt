@@ -61,7 +61,7 @@ class ResultatExplorationFragment : Fragment() {
         }
 
         exploration_resultat_btn_Terminer.setOnClickListener {
-            exploration.put("runes","{}")
+            exploration.put("unit","{}")
             mListener!!.onTerminerExplorationClick(exploration)
         }
     }
@@ -199,8 +199,8 @@ class ResultatExplorationFragment : Fragment() {
 
     private fun calculerNombreRunes(unitResultat: JSONObject): Boolean{
         var estValide = false
-        if(token.isNotEmpty() && !href!!.isBlank()){
-            var request = (BASE_URL+href).httpGet().header("Authorization" to "Bearer $token")
+        if(token.isNotEmpty() && !href.isBlank()){
+            var request = (BASE_URL+"explorateur/"+href).httpGet().header("Authorization" to "Bearer $token")
             request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{

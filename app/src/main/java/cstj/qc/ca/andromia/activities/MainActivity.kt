@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            //transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-            //transaction.addToBackStack("EmplacementExplorateurFragment")
-            transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
+            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            transaction.addToBackStack("EmplacementExplorateurFragment")
+            //transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
             transaction.commit()
         }.run()
     }
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     (response.httpStatusCode == 201) ->{
                         val transaction = fragmentManager.beginTransaction()
                         transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
+                        fragmentManager.popBackStack()
                         transaction.commit()
 
                     }
@@ -125,7 +126,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            //TODO: Remplacer par le fragment ResultatExplo
             transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance(codeContent, mHrefExplorateur, token))
             fragmentManager.popBackStack()
             transaction.commit()
