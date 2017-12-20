@@ -100,7 +100,7 @@ class EmplacementExplorateurFragment : Fragment() {
         this.activity!!.finish()
     }
 
-    fun updateLocation(location:String){
+    private fun updateLocation(location:String){
         if(!location.isBlank()){
             when (location){
                 "Mordukin" ->{
