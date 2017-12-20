@@ -86,54 +86,54 @@ class ResultatExplorationFragment : Fragment() {
                 }
                 }
             }
-            
+
             var requestAndromia = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
-            requestAndromia.responseJson{ _, response, result ->
-                when{
-                    (response.httpStatusCode == 200) ->{
+            requestAndromia.responseJson { _, response, result ->
+                when {
+                    (response.httpStatusCode == 200) -> {
                         var resultat = AndromiaExploration(result.get())
 
-                        exploration.put("dateExploration", resultat.dateExploration )
+                        exploration.put("dateExploration", resultat.dateExploration)
                         exploration.put("locationDepart", location)
                         exploration.put("locationDestination", resultat.destination)
                         exploration.put("runes", resultat.runes)
-                        exploration.put("unit",resultat.unit)
+                        exploration.put("unit", resultat.unit)
 
 
-                        if (resultat.runes.length() > 0 ){
+                        if (resultat.runes.length() > 0) {
                             AfficherRunesAcquise(resultat.runes)
-                        }else{
+                        } else {
                             relativeRunesAcquises.visibility = View.GONE
                         }
-
-                        if (resultat.unit.length() > 0 ){
+                        var estValide = false
+                        if (resultat.unit.length() > 0) {
                             AfficherUnitResultatExploration(resultat.unit)
-                            var estValide = false
+                            if (runesExplorateur.size > 0) {
+                                if (runesExplorateur[0].quantite >= resultat.unit.getJSONObject("kernel").getInt("air")
+                                        && runesExplorateur[1].quantite >= resultat.unit.getJSONObject("kernel").getInt("darkness")
+                                        && runesExplorateur[2].quantite >= resultat.unit.getJSONObject("kernel").getInt("earth")
+                                        && runesExplorateur[3].quantite >= resultat.unit.getJSONObject("kernel").getInt("energy")
+                                        && runesExplorateur[4].quantite >= resultat.unit.getJSONObject("kernel").getInt("fire")
+                                        && runesExplorateur[5].quantite >= resultat.unit.getJSONObject("kernel").getInt("life")
+                                        && runesExplorateur[6].quantite >= resultat.unit.getJSONObject("kernel").getInt("light")
+                                        && runesExplorateur[7].quantite >= resultat.unit.getJSONObject("kernel").getInt("logic")
+                                        && runesExplorateur[8].quantite >= resultat.unit.getJSONObject("kernel").getInt("music")
+                                        && runesExplorateur[9].quantite >= resultat.unit.getJSONObject("kernel").getInt("space")
+                                        && runesExplorateur[10].quantite >= resultat.unit.getJSONObject("kernel").getInt("toxic")
+                                        && runesExplorateur[11].quantite >= resultat.unit.getJSONObject("kernel").getInt("water")) {
+                                    estValide = true
+                                }
 
-                            if (runesExplorateur[0].quantite >= resultat.unit.getJSONObject("kernel").getInt("air")
-                                    && runesExplorateur[1].quantite >= resultat.unit.getJSONObject("kernel").getInt("darkness")
-                                    && runesExplorateur[2].quantite >= resultat.unit.getJSONObject("kernel").getInt("earth")
-                                    && runesExplorateur[3].quantite >= resultat.unit.getJSONObject("kernel").getInt("energy")
-                                    && runesExplorateur[4].quantite >= resultat.unit.getJSONObject("kernel").getInt("fire")
-                                    && runesExplorateur[5].quantite >= resultat.unit.getJSONObject("kernel").getInt("life")
-                                    && runesExplorateur[6].quantite >= resultat.unit.getJSONObject("kernel").getInt("light")
-                                    && runesExplorateur[7].quantite >= resultat.unit.getJSONObject("kernel").getInt("logic")
-                                    && runesExplorateur[8].quantite >= resultat.unit.getJSONObject("kernel").getInt("music")
-                                    && runesExplorateur[9].quantite >= resultat.unit.getJSONObject("kernel").getInt("space")
-                                    && runesExplorateur[10].quantite >= resultat.unit.getJSONObject("kernel").getInt("toxic")
-                                    && runesExplorateur[11].quantite >= resultat.unit.getJSONObject("kernel").getInt("water")) {
-                                estValide = true
+
+                                exploration_resultat_btn_Capturer.isEnabled = estValide
                             }
-                            exploration_resultat_btn_Capturer.isEnabled = estValide
-                        } else {
+                        }else{
                             UnitResultatExploration.visibility = View.GONE
-                            exploration_resultat_btn_Capturer.isEnabled = false
+                            exploration_resultat_btn_Capturer.isEnabled = estValide
                         }
                     }
                 }
             }
-
-
         }
         else{
             logout()
