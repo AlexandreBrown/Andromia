@@ -1,5 +1,6 @@
 package cstj.qc.ca.andromia.fragments
 
+import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.content.Intent
@@ -63,25 +64,27 @@ class EmplacementExplorateurFragment : Fragment() {
         emplacement_explorateur_btn_afficher_runes.setOnClickListener {
             mListener!!.onShowMyRunesClick()
         }
-
-        val prefs = activity.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
-        if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
-            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
-            request.responseJson{ _, response, result ->
-                when{
-                    (response.httpStatusCode == 200) ->{
-                        val explorateur = Explorateur(result.get())
-                        updateLocation(explorateur.location)
-                        view!!.emplacement_explorateur!!.text = explorateur.location
-                    }
-                    else -> {
-                        logout()
+        
+        if (isAdded && activity != null) {
+            val prefs = activity.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+            val token:String = prefs.getString(EXPLORATEUR_KEY, "")
+            if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
+                var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
+                request.responseJson{ _, response, result ->
+                    when{
+                        (response.httpStatusCode == 200) ->{
+                            val explorateur = Explorateur(result.get())
+                            updateLocation(explorateur.location)
+                            view!!.emplacement_explorateur!!.text = explorateur.location
+                        }
+                        else -> {
+                            logout()
+                        }
                     }
                 }
+            }else{
+                logout()
             }
-        }else{
-            logout()
         }
     }
 
