@@ -1,12 +1,9 @@
 package cstj.qc.ca.andromia.fragments
 
-import android.app.Activity
+import android.animation.ValueAnimator
 import android.app.Fragment
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,19 +13,16 @@ import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.*
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.Bitmap
-import android.widget.TextView
+import android.renderscript.Sampler
+import android.view.animation.LinearInterpolator
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import cstj.qc.ca.andromia.R.id.contentFrame
 import cstj.qc.ca.andromia.activities.ConnexionActivity
-import cstj.qc.ca.andromia.dialogs.RunesDialog
 import cstj.qc.ca.andromia.helpers.BASE_URL
 import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.view.*
-import org.json.JSONObject
 
 
 /**
@@ -64,7 +58,7 @@ class EmplacementExplorateurFragment : Fragment() {
         emplacement_explorateur_btn_afficher_runes.setOnClickListener {
             mListener!!.onShowMyRunesClick()
         }
-        
+
         if (isAdded && activity != null) {
             val prefs = activity.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
             val token:String = prefs.getString(EXPLORATEUR_KEY, "")
@@ -74,8 +68,8 @@ class EmplacementExplorateurFragment : Fragment() {
                     when{
                         (response.httpStatusCode == 200) ->{
                             val explorateur = Explorateur(result.get())
-                            updateLocation(explorateur.location)
                             view!!.emplacement_explorateur!!.text = explorateur.location
+                            startLocationAnimation(explorateur.location)
                         }
                         else -> {
                             logout()
@@ -86,6 +80,26 @@ class EmplacementExplorateurFragment : Fragment() {
                 logout()
             }
         }
+    }
+
+    private fun startLocationAnimation(location: String) {
+        //1
+        val valueAnimator = ValueAnimator.ofInt(0,255)
+
+        //2
+        valueAnimator.addUpdateListener {
+            val value = it.animatedValue as Int
+            updateLocation(location,value)
+        }
+
+        //5
+        valueAnimator.interpolator = LinearInterpolator()
+        valueAnimator.duration = 1000
+        valueAnimator.repeatCount = ValueAnimator.INFINITE
+        valueAnimator.repeatMode = ValueAnimator.REVERSE
+
+        //6
+        valueAnimator.start()
     }
 
     private fun logout(){
@@ -104,81 +118,81 @@ class EmplacementExplorateurFragment : Fragment() {
         this.activity!!.finish()
     }
 
-    private fun updateLocation(location:String){
+    private fun updateLocation(location:String,alpha:Int){
         if(!location.isBlank()){
             when (location){
-                "Mordukin" ->{
-                    drawCurrentLocation(95,90)
+                "Mordulkin" ->{
+                    drawCurrentLocation(95,90,alpha)
                 }
                 "Yartar"->{
-                    drawCurrentLocation(285,50)
+                    drawCurrentLocation(285,50,alpha)
                 }
                 "Everlund"->{
-                    drawCurrentLocation(195,240)
+                    drawCurrentLocation(195,240,alpha)
                 }
                 "Atomico"->{
-                    drawCurrentLocation(405,167)
+                    drawCurrentLocation(405,167,alpha)
                 }
                 "Bézantur"->{
-                    drawCurrentLocation(737,66)
+                    drawCurrentLocation(737,66,alpha)
                 }
                 "Trois-Épées"->{
-                    drawCurrentLocation(340,440)
+                    drawCurrentLocation(340,440,alpha)
                 }
                 "Inoxis"->{
-                    drawCurrentLocation(557,395)
+                    drawCurrentLocation(557,395,alpha)
                 }
                 "Lunargent"->{
-                    drawCurrentLocation(260,540)
+                    drawCurrentLocation(260,540,alpha)
                 }
                 "Star Nation"->{
-                    drawCurrentLocation(230,375)
+                    drawCurrentLocation(230,375,alpha)
                 }
                 "Indigo"->{
-                    drawCurrentLocation(40,310)
+                    drawCurrentLocation(40,310,alpha)
                 }
                 "Ilm Garde"->{
-                    drawCurrentLocation(265,705)
+                    drawCurrentLocation(265,705,alpha)
                 }
                 "Cordisphère"->{
-                    drawCurrentLocation(630,535)
+                    drawCurrentLocation(630,535,alpha)
                 }
                 "Bois d'Elm"->{
-                    drawCurrentLocation(760,480)
+                    drawCurrentLocation(760,480,alpha)
                 }
                 "Myth Dranor"->{
-                    drawCurrentLocation(768,200)
+                    drawCurrentLocation(768,200,alpha)
                 }
                 "Apollo"->{
-                    drawCurrentLocation(915,190)
+                    drawCurrentLocation(915,190,alpha)
                 }
                 "Rafalo Land"->{
-                    drawCurrentLocation(985,100)
+                    drawCurrentLocation(985,100,alpha)
                 }
                 "Deux-Étoiles"->{
-                    drawCurrentLocation(985,340)
+                    drawCurrentLocation(985,340,alpha)
                 }
                 "Bourok Torn"->{
-                    drawCurrentLocation(725,762)
+                    drawCurrentLocation(725,762,alpha)
                 }
                 "Volcano"->{
-                    drawCurrentLocation(850,750)
+                    drawCurrentLocation(850,750,alpha)
                 }
                 "N'Jast"->{
-                    drawCurrentLocation(970,605)
+                    drawCurrentLocation(970,605,alpha)
                 }
             }
         }
     }
 
-    fun drawCurrentLocation(xPost:Int,yPos:Int){
+    fun drawCurrentLocation(xPost:Int,yPos:Int,alpha:Int){
         val width = Resources.getSystem().displayMetrics.widthPixels
         val height = Resources.getSystem().displayMetrics.heightPixels
         var bitmap = Bitmap.createBitmap(width, height/2,Bitmap.Config.ARGB_8888)
         var cnv = Canvas(bitmap)
         var paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = Color.RED
-        paint.alpha = 200
+        paint.alpha = alpha
         val radius = 8
         val density = resources.displayMetrics.density
         cnv.drawCircle(
