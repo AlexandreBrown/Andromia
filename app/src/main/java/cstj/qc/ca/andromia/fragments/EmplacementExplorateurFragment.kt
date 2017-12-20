@@ -103,64 +103,64 @@ class EmplacementExplorateurFragment : Fragment() {
     fun updateLocation(location:String){
         if(!location.isBlank()){
             when (location){
-                "mordukin" ->{
+                "Mordukin" ->{
                     drawCurrentLocation(95,90)
                 }
-                "yartar"->{
+                "Yartar"->{
                     drawCurrentLocation(285,50)
                 }
-                "everlund"->{
+                "Everlund"->{
                     drawCurrentLocation(195,240)
                 }
-                "atomico"->{
+                "Atomico"->{
                     drawCurrentLocation(405,167)
                 }
-                "bézantur"->{
+                "Bézantur"->{
                     drawCurrentLocation(737,66)
                 }
-                "trois-épées"->{
+                "Trois-Épées"->{
                     drawCurrentLocation(340,440)
                 }
-                "inoxis"->{
+                "Inoxis"->{
                     drawCurrentLocation(557,395)
                 }
-                "lunargent"->{
+                "Lunargent"->{
                     drawCurrentLocation(260,540)
                 }
-                "star nation"->{
+                "Star Nation"->{
                     drawCurrentLocation(230,375)
                 }
-                "indigo"->{
+                "Indigo"->{
                     drawCurrentLocation(40,310)
                 }
-                "ilm garde"->{
+                "Ilm Garde"->{
                     drawCurrentLocation(265,705)
                 }
-                "cordisphère"->{
+                "Cordisphère"->{
                     drawCurrentLocation(630,535)
                 }
-                "bois d'elm"->{
+                "Bois d'Elm"->{
                     drawCurrentLocation(760,480)
                 }
-                "myth dranon"->{
+                "Myth Dranor"->{
                     drawCurrentLocation(768,200)
                 }
-                "apollo"->{
+                "Apollo"->{
                     drawCurrentLocation(915,190)
                 }
-                "rafalo land"->{
+                "Rafalo Land"->{
                     drawCurrentLocation(985,100)
                 }
-                "deux-étoiles"->{
+                "Deux-Étoiles"->{
                     drawCurrentLocation(985,340)
                 }
-                "bourok torn"->{
+                "Bourok Torn"->{
                     drawCurrentLocation(725,762)
                 }
-                "volcano"->{
+                "Volcano"->{
                     drawCurrentLocation(850,750)
                 }
-                "n'jast"->{
+                "N'Jast"->{
                     drawCurrentLocation(970,605)
                 }
             }
