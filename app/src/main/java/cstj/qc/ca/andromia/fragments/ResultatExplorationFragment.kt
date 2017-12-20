@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 
@@ -35,6 +36,7 @@ class ResultatExplorationFragment : Fragment() {
     private lateinit var href:String
     private lateinit var codeExploration:String
     private var exploration:JSONObject = JSONObject()
+    private var location:String = ""
 
 
     private var mListener: OnResultatExplorationFragmentListener? = null
@@ -61,7 +63,8 @@ class ResultatExplorationFragment : Fragment() {
         }
 
         exploration_resultat_btn_Terminer.setOnClickListener {
-            exploration.put("unit","{}")
+            var unitVide = JSONObject()
+            exploration.put("unit", unitVide)
             mListener!!.onTerminerExplorationClick(exploration)
         }
     }
@@ -69,8 +72,81 @@ class ResultatExplorationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-            var location = getLocationDepart()
-            // On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
+        if(token.isNotEmpty() && !href!!.isBlank()){
+            var request = (BASE_URL+"explorateurs/"+href).httpGet()
+            request.httpHeaders["Authorization"] = "Bearer $token"
+            request.responseJson{ _, response, result ->
+                when{
+                    (response.httpStatusCode == 200) ->{
+                        var explorateur = Explorateur(result.get())
+
+                        location = explorateur.location
+                    }else -> {
+                    location = ""
+                    }
+                }
+            }
+
+            val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
+            //var request = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
+            url.httpGet().responseJson{ _, response, result ->
+                when{
+                    (response.httpStatusCode == 200) ->{
+                        var resultat = AndromiaExploration(result.get())
+
+                        exploration.put("dateExploration", resultat.dateExploration )
+                        exploration.put("locationDepart", location)
+                        exploration.put("locationDestination", resultat.destination)
+                        exploration.put("runes", resultat.runes)
+                        exploration.put("unit",resultat.unit)
+                        if (resultat.runes.length() > 0 ){
+                            AfficherRunesAcquise(resultat.runes)
+                        }else{
+                            runesAcquises.visibility = View.GONE
+                        }
+
+                        if (resultat.unit.length() > 0 ){
+                            AfficherUnitResultatExploration(resultat.unit)
+                            var estValide = false
+
+                            var request = (BASE_URL+"explorateurs/"+href).httpGet().header("Authorization" to "Bearer $token")
+                            request.responseJson { _, response, result ->
+                                when {
+                                    (response.httpStatusCode == 200) -> {
+                                        var explorateur = Explorateur(result.get())
+                                        if (explorateur.lstRunes[0].quantite >= resultat.unit.getJSONObject("kernel").getInt("air")
+                                                && explorateur.lstRunes[1].quantite >= resultat.unit.getJSONObject("kernel").getInt("darkness")
+                                                && explorateur.lstRunes[2].quantite >= resultat.unit.getJSONObject("kernel").getInt("earth")
+                                                && explorateur.lstRunes[3].quantite >= resultat.unit.getJSONObject("kernel").getInt("energy")
+                                                && explorateur.lstRunes[4].quantite >= resultat.unit.getJSONObject("kernel").getInt("fire")
+                                                && explorateur.lstRunes[5].quantite >= resultat.unit.getJSONObject("kernel").getInt("life")
+                                                && explorateur.lstRunes[6].quantite >= resultat.unit.getJSONObject("kernel").getInt("light")
+                                                && explorateur.lstRunes[7].quantite >= resultat.unit.getJSONObject("kernel").getInt("logic")
+                                                && explorateur.lstRunes[8].quantite >= resultat.unit.getJSONObject("kernel").getInt("music")
+                                                && explorateur.lstRunes[9].quantite >= resultat.unit.getJSONObject("kernel").getInt("space")
+                                                && explorateur.lstRunes[10].quantite >= resultat.unit.getJSONObject("kernel").getInt("toxic")
+                                                && explorateur.lstRunes[11].quantite >= resultat.unit.getJSONObject("kernel").getInt("water")) {
+                                            estValide = true
+                                        }
+                                    }
+                                }
+                            }
+                            exploration_resultat_btn_Capturer.isEnabled = estValide
+                        } else {
+                            UnitResultatExploration.visibility = View.GONE
+                            exploration_resultat_btn_Capturer.isEnabled = false
+                        }
+                    }
+                }
+            }
+
+
+        }
+        else{
+            logout()
+        }
+
+            /*// On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
             if(token.isNotEmpty() && !href!!.isBlank()){
                 val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
                 //var request = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
@@ -92,8 +168,9 @@ class ResultatExplorationFragment : Fragment() {
 
                             if (resultat.unit.length() > 0 ){
                                 AfficherUnitResultatExploration(resultat.unit)
-
-                                exploration_resultat_btn_Capturer.isEnabled = calculerNombreRunes(resultat.unit)
+                                var estValide = calculerNombreRunes(resultat.unit)
+                                //exploration_resultat_btn_Capturer.isEnabled = calculerNombreRunes(resultat.unit)
+                                exploration_resultat_btn_Capturer.isEnabled = estValide
                             } else {
                                 UnitResultatExploration.visibility = View.GONE
                                 exploration_resultat_btn_Capturer.isEnabled = false
@@ -103,7 +180,7 @@ class ResultatExplorationFragment : Fragment() {
                 }
             }else {
                 logout()
-            }
+            }*/
 
 
         return inflater.inflate(R.layout.fragment_exploration_resultat, container, false)
@@ -177,7 +254,7 @@ class ResultatExplorationFragment : Fragment() {
     private fun getLocationDepart():String{
         var location = "Nulle part"
         if(token.isNotEmpty() && !href!!.isBlank()){
-            var request = (BASE_URL+"explorateurs/$href").httpGet()
+            var request = (BASE_URL+"explorateurs/"+href).httpGet()
             request.httpHeaders["Authorization"] = "Bearer $token"
             request.responseJson{ _, response, result ->
                 when{
@@ -190,17 +267,18 @@ class ResultatExplorationFragment : Fragment() {
                     }
                 }
             }
+            return location
         }
         else{
             logout()
+            return location
         }
-        return location
     }
 
     private fun calculerNombreRunes(unitResultat: JSONObject): Boolean{
         var estValide = false
         if(token.isNotEmpty() && !href.isBlank()){
-            var request = (BASE_URL+"explorateur/"+href).httpGet().header("Authorization" to "Bearer $token")
+            var request = (BASE_URL+"explorateurs/"+href).httpGet().header("Authorization" to "Bearer $token")
             request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
@@ -224,11 +302,13 @@ class ResultatExplorationFragment : Fragment() {
                     }
                 }
             }
+            return estValide
         }
         else{
             logout()
+            return estValide
         }
-        return estValide
+
     }
 
     private fun AfficherRunesAcquise(runesAAfficher: JSONObject){

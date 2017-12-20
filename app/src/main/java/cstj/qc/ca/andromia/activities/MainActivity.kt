@@ -25,6 +25,7 @@ import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.widget.TextView
+import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.httpPost
 import org.json.JSONObject
 

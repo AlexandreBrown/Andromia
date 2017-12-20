@@ -26,6 +26,7 @@ import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 
 
 /**
