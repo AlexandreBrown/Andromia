@@ -70,10 +70,6 @@ class ResultatExplorationFragment : Fragment() {
             exploration.put("unit", unitVide)
             mListener!!.onTerminerExplorationClick(exploration)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
 
         if(token.isNotEmpty() && !href!!.isBlank()){
             var request = (BASE_URL+"explorateurs/"+href).httpGet()
@@ -87,7 +83,7 @@ class ResultatExplorationFragment : Fragment() {
                         runesExplorateur = explorateur.lstRunes
                     }else -> {
                     location = ""
-                    }
+                }
                 }
             }
 
@@ -143,6 +139,14 @@ class ResultatExplorationFragment : Fragment() {
         else{
             logout()
         }
+
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+
         return inflater.inflate(R.layout.fragment_exploration_resultat, container, false)
     }
 

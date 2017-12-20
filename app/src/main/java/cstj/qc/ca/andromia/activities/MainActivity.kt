@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onScanClick() {
-        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
+        //val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        //val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)

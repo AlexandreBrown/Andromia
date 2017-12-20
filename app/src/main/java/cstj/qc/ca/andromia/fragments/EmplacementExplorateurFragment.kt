@@ -101,7 +101,7 @@ class EmplacementExplorateurFragment : Fragment() {
     }
 
     fun updateLocation(location:String){
-        if(!location.isBlank()){
+        if(!location.isBlank() && location !== "Nulle part"){
             when (location){
                 "Mordukin" ->{
                     drawCurrentLocation(95,90)
