@@ -79,7 +79,7 @@
                     android:background="@drawable/primary_rounded"/>
 
                 <Button
-                    android:id="@+id/emplacement_explorateur_btn_affficher_runes"
+                    android:id="@+id/emplacement_explorateur_btn_afficher_runes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"

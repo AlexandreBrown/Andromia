@@ -5,7 +5,7 @@ android:layout_height="match_parent"
     android:background="@color/cardview_dark_background">
 
     <RelativeLayout
-    android:id="@+id/Unit"
+    android:id="@+id/UnitResultatExploration"
     android:layout_width="match_parent"
     android:layout_height="280dp">
 
@@ -168,28 +168,28 @@ android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorAccent"
-        android:layout_below="@id/Unit">
+        android:layout_below="@id/UnitResultatExploration">
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btnRetour"
+        android:id="@+id/exploration_resultat_btn_Terminer"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="Retour"
+        android:text="Terminer"
         android:layout_below="@id/runesAcquises"
         android:background="@drawable/primary_rounded"/>
 
     <Button
-        android:id="@+id/btnCapture"
+        android:id="@+id/exploration_resultat_btn_Capturer"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:text="Capturer"
-        android:layout_toEndOf="@id/btnRetour"
+        android:layout_toEndOf="@id/exploration_resultat_btn_Terminer"
         android:layout_below="@id/runesAcquises"
         android:background="@drawable/primary_rounded"/>
 
@@ -203,7 +203,7 @@ android:layout_height="match_parent"
         android:text="@string/mes_runes"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/btnCapture"
+        android:layout_toEndOf="@id/exploration_resultat_btn_Capturer"
         android:layout_below="@id/runesAcquises"/>
 
 </RelativeLayout>

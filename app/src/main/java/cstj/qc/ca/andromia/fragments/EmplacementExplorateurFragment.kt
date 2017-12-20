@@ -1,11 +1,7 @@
 package cstj.qc.ca.andromia.fragments
 
-import android.R.attr.*
 import android.app.Fragment
 import android.content.Context
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +11,7 @@ import cstj.qc.ca.andromia.R
 import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.*
 import android.content.res.Resources
 import android.graphics.*
-import android.view.Display
-import android.view.WindowManager
 import android.graphics.Bitmap
-import cstj.qc.ca.andromia.R.id.contentFrame
 
 
 /**
@@ -46,7 +39,7 @@ class EmplacementExplorateurFragment : Fragment() {
             mListener!!.onScanClick()
         }
 
-        emplacement_explorateur_btn_affficher_runes.setOnClickListener {
+        emplacement_explorateur_btn_afficher_runes.setOnClickListener {
             mListener!!.onShowMyRunesClick()
         }
 

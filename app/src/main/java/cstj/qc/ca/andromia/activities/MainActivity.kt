@@ -29,15 +29,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import android.widget.TextView
-
-
+import com.github.kittinunf.fuel.httpPost
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
                                         , ScannerPortalFragment.ScanResultReceiver
                                         , OnListItemFragmentInteractionListener
                                         , RunesDialog.OnRunesDialogListener
-                                        , EmplacementExplorateurFragment.OnEmplacementExplorateurInteractionListener{
+                                        , EmplacementExplorateurFragment.OnEmplacementExplorateurInteractionListener
+                                        ,ResultatExplorationFragment.OnResultatExplorationFragmentListener{
     private var mDialogRunes :RunesDialog? = null
 
     private var mHrefExplorateur:String? = null
@@ -53,16 +54,55 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onScanClick() {
-        /*val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-        val token:String = prefs.getString(EXPLORATEUR_KEY, "")*/
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-            transaction.addToBackStack("EmplacementExplorateurFragment")
-            //transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2EFC7EF07276", mHrefExplorateur, token))
+            //transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            //transaction.addToBackStack("EmplacementExplorateurFragment")
+            transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
             transaction.commit()
         }.run()
+    }
+
+    override fun onCapturerUnitClick(exploration: JSONObject) {
+
+    }
+
+    override fun onTerminerExplorationClick(exploration: JSONObject) {
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token = prefs.getString(EXPLORATEUR_KEY, "")
+
+        if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
+            val request = (BASE_URL +"explorateurs/$mHrefExplorateur/explorations").httpPost().header("Authorization" to "Bearer $token")
+            request.httpHeaders["Content-Type"] = "application/json"
+            request.httpBody = exploration.toString().toByteArray()
+            request.responseJson{ _, response, _ ->
+                when{
+                // Si l'insertion à fonctionnée
+                    (response.httpStatusCode == 201) ->{
+                        val transaction = fragmentManager.beginTransaction()
+                        transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+                        transaction.commit()
+
+                    }
+                    (response.httpStatusCode in 400..499) -> {
+                        /*if(mSnackbar != null){
+                            mSnackbar!!.dismiss()
+                        }
+                        signup_et_password.text.clear()
+                        signup_et_confirm_password.text.clear()
+                        hideKeyboard(container_signup)
+                        Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()*/
+                    }
+                    else -> {
+                        /*handleNoConnectionError(container_signup)*/
+                    }
+                }
+            }
+        }
+
     }
 
     override fun scanResultData(codeContent: String) {

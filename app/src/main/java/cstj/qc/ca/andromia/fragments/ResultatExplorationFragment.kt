@@ -1,11 +1,9 @@
 package cstj.qc.ca.andromia.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.AndromiaExploration
 import cstj.qc.ca.andromia.models.Explorateur
-import cstj.qc.ca.andromia.models.Exploration
 import kotlinx.android.synthetic.main.fragment_exploration_resultat.*
 import org.json.JSONObject
 
@@ -37,12 +34,11 @@ class ResultatExplorationFragment : Fragment() {
     private lateinit var token:String
     private lateinit var href:String
     private lateinit var codeExploration:String
-    //private lateinit var location:String
     private var exploration:JSONObject = JSONObject()
-    private lateinit var unitAAjouter:JSONObject
+    private var unitAAjouter:JSONObject = JSONObject()
 
 
-    private var mListener: OnFragmentInteractionListener? = null
+    private var mListener: OnResultatExplorationFragmentListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +49,29 @@ class ResultatExplorationFragment : Fragment() {
         }
     }
 
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        exploration_resultat_btn_Capturer.setOnClickListener {
+            mListener!!.onCapturerUnitClick(exploration)
+        }
+
+        exploration_resultat_btn_affficher_runes.setOnClickListener {
+            mListener!!.onShowMyRunesClick()
+        }
+
+        exploration_resultat_btn_Terminer.setOnClickListener {
+            mListener!!.onTerminerExplorationClick(exploration)
+        }
+
+
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+            var location = getLocationDepart()
             // On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
             if(token.isNotEmpty() && !href!!.isBlank()){
                 val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
@@ -64,22 +80,30 @@ class ResultatExplorationFragment : Fragment() {
                     when{
                         (response.httpStatusCode == 200) ->{
                             var resultat = AndromiaExploration(result.get())
-                            var location = getLocationDepart()
-                            if (location.isBlank()){
-                                location = "Aucune"
-                            }
+
+
                             exploration.put("dateExploration", resultat.dateExploration )
                             exploration.put("locationDepart", location)
-                            exploration.put("destination", resultat.destination)
-                            exploration.put("runes", resultat.runes)
+                            exploration.put("locationDestination", resultat.destination)
+                            if (resultat.runes.length() > 0 ){
+                                //explorateur.put("runes", resultat.runes)
+                                AfficherRunesAcquise(resultat.runes)
+                            }else{
+                                runesAcquises.visibility = View.GONE
+                            }
 
+                            if (resultat.unit.length() > 0 ){
+                                unitAAjouter.put("unit", resultat.unit)
+                                AfficherUnitResultatExploration(resultat.unit)
 
-                            if (resultat.unit.length() > 0 && calculerNombreRunes(resultat.unit)){
-                                btnCapture.visibility = View.VISIBLE
-                                btnCapture.isEnabled = true
-
+                                if(calculerNombreRunes(resultat.unit)){
+                                    exploration_resultat_btn_Capturer.isEnabled = true
+                                }else {
+                                    exploration_resultat_btn_Capturer.isEnabled = false
+                                }
                             } else {
-                                btnCapture.isEnabled = false
+                                UnitResultatExploration.visibility = View.GONE
+                                exploration_resultat_btn_Capturer.isEnabled = false
                             }
                         }
                     }
@@ -92,16 +116,15 @@ class ResultatExplorationFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_exploration_resultat, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        if (mListener != null) {
-            mListener!!.onFragmentInteraction(uri)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnResultatExplorationFragmentListener) {
+            mListener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
-    /*override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }*/
 
     override fun onDetach() {
         super.onDetach()
@@ -117,9 +140,10 @@ class ResultatExplorationFragment : Fragment() {
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+    interface OnResultatExplorationFragmentListener {
+        fun onCapturerUnitClick(jsonObject: JSONObject)
+        fun onShowMyRunesClick()
+        fun onTerminerExplorationClick(jsonObject: JSONObject)
     }
 
     companion object {
@@ -127,7 +151,6 @@ class ResultatExplorationFragment : Fragment() {
         private val ARG_HREF = "href"
         private val ARG_EXPLORATION = "codeExploration"
 
-        // TODO: Rename and change types and number of parameters
         fun newInstance(codeExploration: String, href: String?, token: String): ResultatExplorationFragment {
 
             val fragment = ResultatExplorationFragment()
@@ -159,15 +182,18 @@ class ResultatExplorationFragment : Fragment() {
     }
 
     private fun getLocationDepart():String{
-        var location = "Aucune"
+        var location = "Nulle part"
         if(token.isNotEmpty() && !href!!.isBlank()){
-            var request = (BASE_URL+href).httpGet().header("Authorization" to "Bearer $token")
+            var request = (BASE_URL+"explorateurs/$href").httpGet()
+            request.httpHeaders["Authorization"] = "Bearer $token"
             request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         var explorateur = Explorateur(result.get())
 
                         location = explorateur.location
+                    }else -> {
+                        location = ""
                     }
                 }
             }
@@ -210,6 +236,17 @@ class ResultatExplorationFragment : Fragment() {
             logout()
         }
         return estValide
+    }
+
+    private fun AfficherRunesAcquise(runesAAfficher: JSONObject){
+
+    }
+
+    private fun AfficherUnitResultatExploration(unitAAfficher: JSONObject){
+        lbl_resultat_nomUnit.text = unitAAfficher.getString("name")
+        lbl_resultat_LifeUnit.text = unitAAfficher.getInt("life").toString()
+        lbl_resultat_SpeedUnit.text = unitAAfficher.getInt("speed").toString()
+        lbl_resultat_AffinityUnit.text = unitAAfficher.getString("affinity")
     }
 
 }// Required empty public constructor

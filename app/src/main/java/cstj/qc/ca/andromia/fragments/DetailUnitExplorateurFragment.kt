@@ -37,7 +37,7 @@ class DetailUnitExplorateurFragment: Fragment() {
 
         // On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
         if(token.isNotEmpty() && !href!!.isBlank()){
-            var request = ("$href").httpGet().header("Authorization" to "Bearer $token")
+            var request = (href).httpGet().header("Authorization" to "Bearer $token")
             request.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
