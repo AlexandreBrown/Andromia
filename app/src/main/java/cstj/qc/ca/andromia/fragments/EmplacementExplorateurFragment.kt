@@ -73,7 +73,7 @@ class EmplacementExplorateurFragment : Fragment() {
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
                         updateLocation(explorateur.location)
-                        view!!.emplacement_explorateur.text = explorateur.location
+                        view!!.emplacement_explorateur!!.text = explorateur.location
                     }
                     else -> {
                         logout()
