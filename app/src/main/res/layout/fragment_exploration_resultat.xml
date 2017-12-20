@@ -11,8 +11,8 @@ android:layout_height="match_parent"
 
         <ImageView
             android:id="@+id/resultat_imgUnit"
-            android:layout_width="90dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="125dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"/>
@@ -149,26 +149,557 @@ android:layout_height="match_parent"
             android:layout_below="@id/lbl_resultat_TitreAbility">
 
             <TextView
+                android:id="@+id/lblcoutResultat"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="125dp"
-                android:layout_marginTop="5dp"
-                android:textColor="#000"
-                android:textStyle="bold"
+                android:layout_marginStart="130dp"
                 android:gravity="center"
-                android:text="@string/cout"/>
+                android:text="@string/cout"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linearlayoutAirResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/lblcoutResultat"
+                android:layout_marginStart="20dp">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Air"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/air"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Air"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutDarknessResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutAirResultat"
+                android:layout_marginStart="20dp">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Darkness"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/darkness"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Darkness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutEarthResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutDarknessResultat"
+                android:layout_marginStart="20dp">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Earth"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/earth"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Earth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutEnergyResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/lblcoutResultat"
+                android:layout_toEndOf="@id/linearlayoutAirResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Energy"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/energy"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Energy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutFireResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutEnergyResultat"
+                android:layout_toEndOf="@id/linearlayoutDarknessResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Fire"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fire"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Fire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutLifeResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutFireResultat"
+                android:layout_toEndOf="@id/linearlayoutEarthResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Life"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/life"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Life"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:id="@+id/linearlayoutLightResultat"
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:layout_below="@id/lblcoutResultat"
+            android:layout_toEndOf="@id/linearlayoutEnergyResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_Light"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/light"/>
+            <TextView
+                android:id="@+id/lbl_qte_Light"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutLogicResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutEnergyResultat"
+                android:layout_toEndOf="@id/linearlayoutFireResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Logic"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logic"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Logic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutMusicResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutFireResultat"
+                android:layout_toEndOf="@id/linearlayoutLifeResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Music"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/music"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutSpaceResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/lblcoutResultat"
+                android:layout_toEndOf="@id/linearlayoutLightResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Space"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/space"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutToxicResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutEnergyResultat"
+                android:layout_toEndOf="@id/linearlayoutLogicResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Toxic"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/toxic"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Toxic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutWaterResultat"
+                android:layout_width="75dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/linearlayoutFireResultat"
+                android:layout_toEndOf="@id/linearlayoutMusicResultat">
+
+                <ImageView
+                    android:id="@+id/img_resultat_Water"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/water"/>
+                <TextView
+                    android:id="@+id/lbl_qte_Water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
-        android:id="@+id/runesAcquises"
+        android:id="@+id/relativeRunesAcquises"
         android:layout_width="325dp"
         android:layout_height="170dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorAccent"
         android:layout_below="@id/UnitResultatExploration">
+
+        <TextView
+            android:id="@+id/lblRunesAcquisesResultat"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="90dp"
+            android:gravity="center"
+            android:text="@string/runesAcquise"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/linearlayoutAirAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/lblRunesAcquisesResultat"
+            android:layout_marginStart="20dp">
+
+            <ImageView
+                android:id="@+id/img_resultat_AirAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/air"/>
+            <TextView
+                android:id="@+id/lbl_qte_AirAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutDarknessAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutAirAcquisResultat"
+            android:layout_marginStart="20dp">
+
+            <ImageView
+                android:id="@+id/img_resultat_DarknessAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/darkness"/>
+            <TextView
+                android:id="@+id/lbl_qte_DarknessAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutEarthAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutDarknessAcquisResultat"
+            android:layout_marginStart="20dp">
+
+            <ImageView
+                android:id="@+id/img_resultat_EarthAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/earth"/>
+            <TextView
+                android:id="@+id/lbl_qte_EarthAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutEnergyAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/lblRunesAcquisesResultat"
+            android:layout_toEndOf="@id/linearlayoutAirAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_EnergyAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/energy"/>
+            <TextView
+                android:id="@+id/lbl_qte_EnergyAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutFireAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutEnergyAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutDarknessAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_FireAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/fire"/>
+            <TextView
+                android:id="@+id/lbl_qte_FireAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutLifeAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutFireAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutEarthAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_LifeAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/life"/>
+            <TextView
+                android:id="@+id/lbl_qte_LifeAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutLightAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/lblRunesAcquisesResultat"
+            android:layout_toEndOf="@id/linearlayoutEnergyAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_LightAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/light"/>
+            <TextView
+                android:id="@+id/lbl_qte_LightAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutLogicAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutEnergyAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutFireAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_LogicAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/logic"/>
+            <TextView
+                android:id="@+id/lbl_qte_LogicAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutMusicAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutFireAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutLifeAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_MusicAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/music"/>
+            <TextView
+                android:id="@+id/lbl_qte_MusicAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutSpaceAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/lblRunesAcquisesResultat"
+            android:layout_toEndOf="@id/linearlayoutLightAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_SpaceAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/space"/>
+            <TextView
+                android:id="@+id/lbl_qte_SpaceAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutToxicAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutEnergyAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutLogicAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_ToxicAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/toxic"/>
+            <TextView
+                android:id="@+id/lbl_qte_ToxicAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayoutWaterAcquisResultat"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/linearlayoutFireAcquisResultat"
+            android:layout_toEndOf="@id/linearlayoutMusicAcquisResultat">
+
+            <ImageView
+                android:id="@+id/img_resultat_WaterAcquis"
+                android:layout_width="37dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/water"/>
+            <TextView
+                android:id="@+id/lbl_qte_WaterAcquis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:layout_marginStart="2dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+
 
     </RelativeLayout>
 
@@ -179,7 +710,7 @@ android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:text="Terminer"
-        android:layout_below="@id/runesAcquises"
+        android:layout_below="@id/relativeRunesAcquises"
         android:background="@drawable/primary_rounded"/>
 
     <Button
@@ -190,7 +721,7 @@ android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:text="Capturer"
         android:layout_toEndOf="@id/exploration_resultat_btn_Terminer"
-        android:layout_below="@id/runesAcquises"
+        android:layout_below="@id/relativeRunesAcquises"
         android:background="@drawable/primary_rounded"/>
 
     <Button
@@ -204,6 +735,6 @@ android:layout_height="match_parent"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@id/exploration_resultat_btn_Capturer"
-        android:layout_below="@id/runesAcquises"/>
+        android:layout_below="@id/relativeRunesAcquises"/>
 
 </RelativeLayout>

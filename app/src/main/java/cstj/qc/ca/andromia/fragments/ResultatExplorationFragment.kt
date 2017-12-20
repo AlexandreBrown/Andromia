@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import com.squareup.picasso.Picasso
 
 import cstj.qc.ca.andromia.R
 import cstj.qc.ca.andromia.activities.ConnexionActivity
@@ -107,7 +108,7 @@ class ResultatExplorationFragment : Fragment() {
                         if (resultat.runes.length() > 0 ){
                             AfficherRunesAcquise(resultat.runes)
                         }else{
-                            runesAcquises.visibility = View.GONE
+                            relativeRunesAcquises.visibility = View.GONE
                         }
 
                         if (resultat.unit.length() > 0 ){
@@ -142,44 +143,6 @@ class ResultatExplorationFragment : Fragment() {
         else{
             logout()
         }
-
-            /*// On vérifie si l'utilisateur est connecté et si il c'est bien un compte existant
-            if(token.isNotEmpty() && !href!!.isBlank()){
-                val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
-                //var request = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
-                url.httpGet().responseJson{ _, response, result ->
-                    when{
-                        (response.httpStatusCode == 200) ->{
-                            var resultat = AndromiaExploration(result.get())
-
-                            exploration.put("dateExploration", resultat.dateExploration )
-                            exploration.put("locationDepart", location)
-                            exploration.put("locationDestination", resultat.destination)
-                            exploration.put("runes", resultat.runes)
-                            exploration.put("unit",resultat.unit)
-                            if (resultat.runes.length() > 0 ){
-                                AfficherRunesAcquise(resultat.runes)
-                            }else{
-                                runesAcquises.visibility = View.GONE
-                            }
-
-                            if (resultat.unit.length() > 0 ){
-                                AfficherUnitResultatExploration(resultat.unit)
-                                var estValide = calculerNombreRunes(resultat.unit)
-                                //exploration_resultat_btn_Capturer.isEnabled = calculerNombreRunes(resultat.unit)
-                                exploration_resultat_btn_Capturer.isEnabled = estValide
-                            } else {
-                                UnitResultatExploration.visibility = View.GONE
-                                exploration_resultat_btn_Capturer.isEnabled = false
-                            }
-                        }
-                    }
-                }
-            }else {
-                logout()
-            }*/
-
-
         return inflater.inflate(R.layout.fragment_exploration_resultat, container, false)
     }
 
@@ -248,68 +211,20 @@ class ResultatExplorationFragment : Fragment() {
         this.activity!!.finish()
     }
 
-    private fun getLocationDepart():String{
-        var location = "Nulle part"
-        if(token.isNotEmpty() && !href!!.isBlank()){
-            var request = (BASE_URL+"explorateurs/"+href).httpGet()
-            request.httpHeaders["Authorization"] = "Bearer $token"
-            request.responseJson{ _, response, result ->
-                when{
-                    (response.httpStatusCode == 200) ->{
-                        var explorateur = Explorateur(result.get())
-
-                        location = explorateur.location
-                    }else -> {
-                        location = ""
-                    }
-                }
-            }
-            return location
-        }
-        else{
-            logout()
-            return location
-        }
-    }
-
-    private fun calculerNombreRunes(unitResultat: JSONObject): Boolean{
-        var estValide = false
-        if(token.isNotEmpty() && !href.isBlank()){
-            var request = (BASE_URL+"explorateurs/"+href).httpGet().header("Authorization" to "Bearer $token")
-            request.responseJson{ _, response, result ->
-                when{
-                    (response.httpStatusCode == 200) ->{
-                        var explorateur = Explorateur(result.get())
-
-                        if (explorateur.lstRunes[0].quantite >= unitResultat.getJSONObject("kernel").getInt("air")
-                                && explorateur.lstRunes[1].quantite >= unitResultat.getJSONObject("kernel").getInt("darkness")
-                                && explorateur.lstRunes[2].quantite >= unitResultat.getJSONObject("kernel").getInt("earth")
-                                && explorateur.lstRunes[3].quantite >= unitResultat.getJSONObject("kernel").getInt("energy")
-                                && explorateur.lstRunes[4].quantite >= unitResultat.getJSONObject("kernel").getInt("fire")
-                                && explorateur.lstRunes[5].quantite >= unitResultat.getJSONObject("kernel").getInt("life")
-                                && explorateur.lstRunes[6].quantite >= unitResultat.getJSONObject("kernel").getInt("light")
-                                && explorateur.lstRunes[7].quantite >= unitResultat.getJSONObject("kernel").getInt("logic")
-                                && explorateur.lstRunes[8].quantite >= unitResultat.getJSONObject("kernel").getInt("music")
-                                && explorateur.lstRunes[9].quantite >= unitResultat.getJSONObject("kernel").getInt("space")
-                                && explorateur.lstRunes[10].quantite >= unitResultat.getJSONObject("kernel").getInt("toxic")
-                                && explorateur.lstRunes[11].quantite >= unitResultat.getJSONObject("kernel").getInt("water"))
-                        {
-                            estValide = true
-                        }
-                    }
-                }
-            }
-            return estValide
-        }
-        else{
-            logout()
-            return estValide
-        }
-
-    }
 
     private fun AfficherRunesAcquise(runesAAfficher: JSONObject){
-
+        lbl_qte_AirAcquis.text = runesAAfficher.getInt("air").toString()
+        lbl_qte_DarknessAcquis.text = runesAAfficher.getInt("darkness").toString()
+        lbl_qte_EarthAcquis.text = runesAAfficher.getInt("earth").toString()
+        lbl_qte_EnergyAcquis.text = runesAAfficher.getInt("energy").toString()
+        lbl_qte_FireAcquis.text = runesAAfficher.getInt("fire").toString()
+        lbl_qte_LifeAcquis.text = runesAAfficher.getInt("life").toString()
+        lbl_qte_LightAcquis.text = runesAAfficher.getInt("light").toString()
+        lbl_qte_LogicAcquis.text = runesAAfficher.getInt("logic").toString()
+        lbl_qte_MusicAcquis.text = runesAAfficher.getInt("music").toString()
+        lbl_qte_SpaceAcquis.text = runesAAfficher.getInt("space").toString()
+        lbl_qte_ToxicAcquis.text = runesAAfficher.getInt("toxic").toString()
+        lbl_qte_WaterAcquis.text = runesAAfficher.getInt("water").toString()
     }
 
     private fun AfficherUnitResultatExploration(unitAAfficher: JSONObject){
@@ -317,6 +232,50 @@ class ResultatExplorationFragment : Fragment() {
         lbl_resultat_LifeUnit.text = unitAAfficher.getInt("life").toString()
         lbl_resultat_SpeedUnit.text = unitAAfficher.getInt("speed").toString()
         lbl_resultat_AffinityUnit.text = unitAAfficher.getString("affinity")
+
+        if (unitAAfficher.getJSONObject("runes").getJSONArray("abilities").length() > 0){
+            val abilitiesUnit = StringBuilder()
+
+            for(i in 0..unitAAfficher.getJSONObject("runes").getJSONArray("abilities").length()-1){
+                abilitiesUnit.append(unitAAfficher.getJSONObject("runes").getJSONArray("abilities")[i])
+                if (i !== unitAAfficher.getJSONObject("runes").getJSONArray("abilities").length()-1){
+                    abilitiesUnit.append(", ")
+                }
+            }
+
+            lbl_resultat_AbilityUnit.text = abilitiesUnit.toString()
+        }
+
+        if (unitAAfficher.getJSONObject("runes").getJSONArray("weapons").length() > 0){
+            val weaponsUnit = StringBuilder()
+
+            for (i in 0..unitAAfficher.getJSONObject("runes").getJSONArray("weapons").length()-1){
+                weaponsUnit.append(unitAAfficher.getJSONObject("runes").getJSONArray("weapons")[i])
+                if (i !== unitAAfficher.getJSONObject("runes").getJSONArray("weapons").length()-1){
+                    weaponsUnit.append(", ")
+                }
+            }
+
+            lbl_resultat_WeaponUnit.text = weaponsUnit
+        }
+
+        lbl_qte_Air.text = unitAAfficher.getJSONObject("kernel").getInt("air").toString()
+        lbl_qte_Darkness.text = unitAAfficher.getJSONObject("kernel").getInt("darkness").toString()
+        lbl_qte_Earth.text = unitAAfficher.getJSONObject("kernel").getInt("earth").toString()
+        lbl_qte_Energy.text = unitAAfficher.getJSONObject("kernel").getInt("energy").toString()
+        lbl_qte_Fire.text = unitAAfficher.getJSONObject("kernel").getInt("fire").toString()
+        lbl_qte_Life.text = unitAAfficher.getJSONObject("kernel").getInt("life").toString()
+        lbl_qte_Light.text = unitAAfficher.getJSONObject("kernel").getInt("light").toString()
+        lbl_qte_Logic.text = unitAAfficher.getJSONObject("kernel").getInt("logic").toString()
+        lbl_qte_Music.text = unitAAfficher.getJSONObject("kernel").getInt("music").toString()
+        lbl_qte_Space.text = unitAAfficher.getJSONObject("kernel").getInt("space").toString()
+        lbl_qte_Toxic.text = unitAAfficher.getJSONObject("kernel").getInt("toxic").toString()
+        lbl_qte_Water.text = unitAAfficher.getJSONObject("kernel").getInt("water").toString()
+
+        Picasso.with(resultat_imgUnit.context)
+                .load(unitAAfficher.getString("imageURL"))
+                .into(resultat_imgUnit)
+
     }
 
 }// Required empty public constructor

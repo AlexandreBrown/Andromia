@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            //transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-            //transaction.addToBackStack("EmplacementExplorateurFragment")
-            transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
+            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            transaction.addToBackStack("EmplacementExplorateurFragment")
+            //transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
             transaction.commit()
         }.run()
     }
