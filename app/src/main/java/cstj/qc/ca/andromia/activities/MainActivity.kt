@@ -56,22 +56,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
-            transaction.addToBackStack("EmplacementExplorateurFragment")
-            //transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
+            //transaction.replace(R.id.contentFrame, ScannerPortalFragment.newInstance())
+            //transaction.addToBackStack("EmplacementExplorateurFragment")
+            transaction.replace(R.id.contentFrame, ResultatExplorationFragment.newInstance("64FB7B69-20D1-4353-83A1-B2FC7EF07276", mHrefExplorateur, token))
             transaction.commit()
         }.run()
     }
 
-    override fun onCapturerUnitClick(exploration: JSONObject) {
+    override fun onCapturerUnitClick(jsonObject: JSONObject) {
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
-            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
-            request.responseJson{ _, response, result ->
+            val request = (BASE_URL +"explorateurs/$mHrefExplorateur/explorations").httpPost().header("Authorization" to "Bearer $token")
+            request.httpHeaders["Content-Type"] = "application/json"
+            request.httpBody = jsonObject.toString().toByteArray()
+            request.responseJson{ _, response, _ ->
                 when{
-                    (response.httpStatusCode == 200) ->{
-                        val explorateur = Explorateur(result.get())
+                    (response.httpStatusCode == 201) ->{
+                        val transaction = fragmentManager.beginTransaction()
+                        transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
+                        fragmentManager.popBackStack()
+                        transaction.commit()
 
                     }
                     else -> {

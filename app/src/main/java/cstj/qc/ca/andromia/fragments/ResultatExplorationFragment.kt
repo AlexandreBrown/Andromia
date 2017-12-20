@@ -19,6 +19,7 @@ import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.helpers.SERVEUR_ANDROMIA_SERVICE
 import cstj.qc.ca.andromia.models.AndromiaExploration
 import cstj.qc.ca.andromia.models.Explorateur
+import cstj.qc.ca.andromia.models.Rune
 import kotlinx.android.synthetic.main.fragment_exploration_resultat.*
 import org.json.JSONObject
 
@@ -37,6 +38,7 @@ class ResultatExplorationFragment : Fragment() {
     private lateinit var codeExploration:String
     private var exploration:JSONObject = JSONObject()
     private var location:String = ""
+    private var runesExplorateur = mutableListOf<Rune>()
 
 
     private var mListener: OnResultatExplorationFragmentListener? = null
@@ -81,6 +83,7 @@ class ResultatExplorationFragment : Fragment() {
                         var explorateur = Explorateur(result.get())
 
                         location = explorateur.location
+                        runesExplorateur = explorateur.lstRunes
                     }else -> {
                     location = ""
                     }
@@ -99,6 +102,8 @@ class ResultatExplorationFragment : Fragment() {
                         exploration.put("locationDestination", resultat.destination)
                         exploration.put("runes", resultat.runes)
                         exploration.put("unit",resultat.unit)
+
+
                         if (resultat.runes.length() > 0 ){
                             AfficherRunesAcquise(resultat.runes)
                         }else{
@@ -109,27 +114,19 @@ class ResultatExplorationFragment : Fragment() {
                             AfficherUnitResultatExploration(resultat.unit)
                             var estValide = false
 
-                            var request = (BASE_URL+"explorateurs/"+href).httpGet().header("Authorization" to "Bearer $token")
-                            request.responseJson { _, response, result ->
-                                when {
-                                    (response.httpStatusCode == 200) -> {
-                                        var explorateur = Explorateur(result.get())
-                                        if (explorateur.lstRunes[0].quantite >= resultat.unit.getJSONObject("kernel").getInt("air")
-                                                && explorateur.lstRunes[1].quantite >= resultat.unit.getJSONObject("kernel").getInt("darkness")
-                                                && explorateur.lstRunes[2].quantite >= resultat.unit.getJSONObject("kernel").getInt("earth")
-                                                && explorateur.lstRunes[3].quantite >= resultat.unit.getJSONObject("kernel").getInt("energy")
-                                                && explorateur.lstRunes[4].quantite >= resultat.unit.getJSONObject("kernel").getInt("fire")
-                                                && explorateur.lstRunes[5].quantite >= resultat.unit.getJSONObject("kernel").getInt("life")
-                                                && explorateur.lstRunes[6].quantite >= resultat.unit.getJSONObject("kernel").getInt("light")
-                                                && explorateur.lstRunes[7].quantite >= resultat.unit.getJSONObject("kernel").getInt("logic")
-                                                && explorateur.lstRunes[8].quantite >= resultat.unit.getJSONObject("kernel").getInt("music")
-                                                && explorateur.lstRunes[9].quantite >= resultat.unit.getJSONObject("kernel").getInt("space")
-                                                && explorateur.lstRunes[10].quantite >= resultat.unit.getJSONObject("kernel").getInt("toxic")
-                                                && explorateur.lstRunes[11].quantite >= resultat.unit.getJSONObject("kernel").getInt("water")) {
-                                            estValide = true
-                                        }
-                                    }
-                                }
+                            if (runesExplorateur[0].quantite >= resultat.unit.getJSONObject("kernel").getInt("air")
+                                    && runesExplorateur[1].quantite >= resultat.unit.getJSONObject("kernel").getInt("darkness")
+                                    && runesExplorateur[2].quantite >= resultat.unit.getJSONObject("kernel").getInt("earth")
+                                    && runesExplorateur[3].quantite >= resultat.unit.getJSONObject("kernel").getInt("energy")
+                                    && runesExplorateur[4].quantite >= resultat.unit.getJSONObject("kernel").getInt("fire")
+                                    && runesExplorateur[5].quantite >= resultat.unit.getJSONObject("kernel").getInt("life")
+                                    && runesExplorateur[6].quantite >= resultat.unit.getJSONObject("kernel").getInt("light")
+                                    && runesExplorateur[7].quantite >= resultat.unit.getJSONObject("kernel").getInt("logic")
+                                    && runesExplorateur[8].quantite >= resultat.unit.getJSONObject("kernel").getInt("music")
+                                    && runesExplorateur[9].quantite >= resultat.unit.getJSONObject("kernel").getInt("space")
+                                    && runesExplorateur[10].quantite >= resultat.unit.getJSONObject("kernel").getInt("toxic")
+                                    && runesExplorateur[11].quantite >= resultat.unit.getJSONObject("kernel").getInt("water")) {
+                                estValide = true
                             }
                             exploration_resultat_btn_Capturer.isEnabled = estValide
                         } else {

@@ -9,5 +9,4 @@ class AndromiaExploration(jsonObj: Json) {
     val destination:String = jsonObj.obj().getString("destination")
     val runes: JSONObject = jsonObj.obj().getJSONObject("runes")
     val unit: JSONObject = jsonObj.obj().getJSONObject("unit")
-
 }
