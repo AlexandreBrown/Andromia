@@ -26,6 +26,7 @@ import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.view.*
 import org.json.JSONObject
 
 
@@ -71,8 +72,8 @@ class EmplacementExplorateurFragment : Fragment() {
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        updateLocation(explorateur.location)
-                        emplacement_explorateur.text = explorateur.location
+                        //updateLocation(explorateur.location)
+                        view!!.emplacement_explorateur.text = explorateur.location
                     }
                     else -> {
                         logout()
