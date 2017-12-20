@@ -188,6 +188,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
         updateNavEmail(nav_view)
+        nav_view!!.menu.getItem(0).isChecked = true
 
         Runnable {
             val transaction = fragmentManager.beginTransaction()
@@ -198,7 +199,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    private fun updateNavEmail(nav_view:View){
+    private fun updateNavEmail(nav_view:View?){
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
@@ -207,7 +208,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        nav_view.nav_email.text = explorateur.courriel
+                        if(nav_view != null && nav_view.nav_email != null){
+                            nav_view.nav_email.text = explorateur.courriel
+                        }
                     }
                     else -> {
                         logout()
