@@ -86,10 +86,9 @@ class ResultatExplorationFragment : Fragment() {
                 }
                 }
             }
-
-            val url = SERVEUR_ANDROMIA_SERVICE +"64FB7B69-20D1-4353-83A1-B2FC7EF07276"
-            //var request = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
-            url.httpGet().responseJson{ _, response, result ->
+            
+            var requestAndromia = (SERVEUR_ANDROMIA_SERVICE + codeExploration).httpGet()
+            requestAndromia.responseJson{ _, response, result ->
                 when{
                     (response.httpStatusCode == 200) ->{
                         var resultat = AndromiaExploration(result.get())
