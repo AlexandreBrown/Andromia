@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.widget.TextView
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.httpPost
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.json.JSONObject
 
 
@@ -185,18 +187,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        updateNavEmail(nav_view)
 
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
             transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
             transaction.commit()
-            updateNavEmail()
         }.run()
 
     }
 
-    private fun updateNavEmail(){
+    private fun updateNavEmail(nav_view:View){
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token:String = prefs.getString(EXPLORATEUR_KEY, "")
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
@@ -205,10 +207,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        var nav_email:TextView? = nav_view.findViewById(R.id.nav_email)
-                        if(nav_email != null){
-                            nav_email.text = explorateur.courriel
-                        }
+                        nav_view.nav_email.text = explorateur.courriel
                     }
                     else -> {
                         logout()

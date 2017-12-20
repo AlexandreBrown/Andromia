@@ -72,8 +72,8 @@ class EmplacementExplorateurFragment : Fragment() {
                 when{
                     (response.httpStatusCode == 200) ->{
                         val explorateur = Explorateur(result.get())
-                        //updateLocation(explorateur.location)
-                        view!!.emplacement_explorateur!!.text = explorateur.location
+                        updateLocation(explorateur.location)
+                        view!!.emplacement_explorateur.text = explorateur.location
                     }
                     else -> {
                         logout()
@@ -184,7 +184,9 @@ class EmplacementExplorateurFragment : Fragment() {
                 radius*density,
                 paint
         )
-        emplacement_explorateur_point.setImageBitmap(bitmap)
+        if(emplacement_explorateur != null){
+            emplacement_explorateur_point.setImageBitmap(bitmap)
+        }
     }
 
 
