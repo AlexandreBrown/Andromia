@@ -3,6 +3,7 @@ package cstj.qc.ca.andromia.fragments
 import android.R.attr.*
 import android.app.Fragment
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
@@ -18,7 +19,17 @@ import android.graphics.*
 import android.view.Display
 import android.view.WindowManager
 import android.graphics.Bitmap
+import android.widget.TextView
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
 import cstj.qc.ca.andromia.R.id.contentFrame
+import cstj.qc.ca.andromia.activities.ConnexionActivity
+import cstj.qc.ca.andromia.dialogs.RunesDialog
+import cstj.qc.ca.andromia.helpers.BASE_URL
+import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
+import cstj.qc.ca.andromia.helpers.PREF_KEY
+import cstj.qc.ca.andromia.models.Explorateur
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
@@ -32,6 +43,7 @@ import cstj.qc.ca.andromia.R.id.contentFrame
  */
 class EmplacementExplorateurFragment : Fragment() {
     private var mListener: OnEmplacementExplorateurInteractionListener? = null
+    private lateinit var mHrefExplorateur: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,6 +54,10 @@ class EmplacementExplorateurFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let {
+            mHrefExplorateur = it.getString(EmplacementExplorateurFragment.ARG_HREF)
+        }
+
         emplacement_explorateur_btn_explorer.setOnClickListener {
             mListener!!.onScanClick()
         }
@@ -49,14 +65,47 @@ class EmplacementExplorateurFragment : Fragment() {
         emplacement_explorateur_btn_affficher_runes.setOnClickListener {
             mListener!!.onShowMyRunesClick()
         }
-        updateLocation()
 
+        val prefs = activity.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
+        if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
+            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
+            request.responseJson{ _, response, result ->
+                when{
+                    (response.httpStatusCode == 200) ->{
+                        val explorateur = Explorateur(result.get())
+                        updateLocation(explorateur.location)
+                        emplacement_explorateur.text = explorateur.location
+                    }
+                    else -> {
+                        logout()
+                    }
+                }
+            }
+        }else{
+            logout()
+        }
     }
 
-    fun updateLocation(){
-        val emplacement = "yartar"
-        if(!emplacement.isBlank()){
-            when (emplacement){
+    private fun logout(){
+        val intent = Intent(this.context, ConnexionActivity::class.java)
+
+        // Suppression du token
+        val myPrefs = this.activity!!.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        myPrefs.edit().remove(EXPLORATEUR_KEY).apply()
+
+        // Retour à l'écran de connexion
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        this.activity!!.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+        this.activity!!.finish()
+    }
+
+    fun updateLocation(location:String){
+        if(!location.isBlank()){
+            when (location){
                 "mordukin" ->{
                     drawCurrentLocation(95,90)
                 }
@@ -174,7 +223,14 @@ class EmplacementExplorateurFragment : Fragment() {
     }
 
     companion object {
+        private var ARG_HREF :String? = null
         @JvmStatic
-        fun newInstance() = EmplacementExplorateurFragment()
+        fun newInstance(href:String) :EmplacementExplorateurFragment=
+                EmplacementExplorateurFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_HREF,href)
+                    }
+                }
     }
+
 }

@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
             fragmentManager.popBackStack()
             transaction.commit()
         }.run()
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+            transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
             transaction.commit()
             updateNavEmail()
         }.run()
@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_explore -> {
                 val transaction = fragmentManager.beginTransaction()
-                transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+                transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
                 transaction.commit()
             }
             R.id.nav_unit -> {
