@@ -94,7 +94,7 @@ class EmplacementExplorateurFragment : Fragment() {
 
         //5
         valueAnimator.interpolator = LinearInterpolator()
-        valueAnimator.duration = 500
+        valueAnimator.duration = 750
         valueAnimator.repeatCount = ValueAnimator.INFINITE
         valueAnimator.repeatMode = ValueAnimator.REVERSE
 
