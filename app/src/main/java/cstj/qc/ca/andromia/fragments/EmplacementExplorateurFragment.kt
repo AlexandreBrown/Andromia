@@ -2,25 +2,19 @@ package cstj.qc.ca.andromia.fragments
 
 import android.app.Fragment
 import android.content.Context
-<<<<<<< HEAD
-=======
 import android.content.Intent
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
->>>>>>> f77fd8283dee6b2f7863bde4a45ee278fc21f14a
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import cstj.qc.ca.andromia.R
 import kotlinx.android.synthetic.main.fragment_emplacement_explorateur.*
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.Bitmap
-<<<<<<< HEAD
-=======
 import android.widget.TextView
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -32,7 +26,6 @@ import cstj.qc.ca.andromia.helpers.EXPLORATEUR_KEY
 import cstj.qc.ca.andromia.helpers.PREF_KEY
 import cstj.qc.ca.andromia.models.Explorateur
 import kotlinx.android.synthetic.main.activity_main.*
->>>>>>> f77fd8283dee6b2f7863bde4a45ee278fc21f14a
 
 
 /**

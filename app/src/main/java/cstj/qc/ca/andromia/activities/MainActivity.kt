@@ -4,14 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -27,7 +24,6 @@ import cstj.qc.ca.andromia.models.Item
 import cstj.qc.ca.andromia.models.Unit
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import android.widget.TextView
 import com.github.kittinunf.fuel.httpPost
 import org.json.JSONObject
@@ -67,23 +63,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCapturerUnitClick(exploration: JSONObject) {
+        val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        val token:String = prefs.getString(EXPLORATEUR_KEY, "")
+        if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
+            var request = (BASE_URL +"explorateurs/$mHrefExplorateur").httpGet().header("Authorization" to "Bearer $token")
+            request.responseJson{ _, response, result ->
+                when{
+                    (response.httpStatusCode == 200) ->{
+                        val explorateur = Explorateur(result.get())
 
+                    }
+                    else -> {
+                        logout()
+                    }
+                }
+            }
+        }else{
+            logout()
+        }
     }
 
-    override fun onTerminerExplorationClick(exploration: JSONObject) {
+    override fun onTerminerExplorationClick(jsonObject: JSONObject) {
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token = prefs.getString(EXPLORATEUR_KEY, "")
 
         if(token.isNotEmpty() && !mHrefExplorateur!!.isBlank()){
             val request = (BASE_URL +"explorateurs/$mHrefExplorateur/explorations").httpPost().header("Authorization" to "Bearer $token")
             request.httpHeaders["Content-Type"] = "application/json"
-            request.httpBody = exploration.toString().toByteArray()
+            request.httpBody = jsonObject.toString().toByteArray()
             request.responseJson{ _, response, _ ->
                 when{
                 // Si l'insertion à fonctionnée
                     (response.httpStatusCode == 201) ->{
                         val transaction = fragmentManager.beginTransaction()
-                        transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance())
+                        transaction.replace(R.id.contentFrame, EmplacementExplorateurFragment.newInstance(mHrefExplorateur!!))
                         transaction.commit()
 
                     }
@@ -168,8 +181,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
-
 
         Runnable {
             val transaction = fragmentManager.beginTransaction()

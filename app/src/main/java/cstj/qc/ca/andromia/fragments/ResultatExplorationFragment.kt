@@ -35,7 +35,6 @@ class ResultatExplorationFragment : Fragment() {
     private lateinit var href:String
     private lateinit var codeExploration:String
     private var exploration:JSONObject = JSONObject()
-    private var unitAAjouter:JSONObject = JSONObject()
 
 
     private var mListener: OnResultatExplorationFragmentListener? = null
@@ -62,10 +61,9 @@ class ResultatExplorationFragment : Fragment() {
         }
 
         exploration_resultat_btn_Terminer.setOnClickListener {
+            exploration.put("runes","{}")
             mListener!!.onTerminerExplorationClick(exploration)
         }
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -81,26 +79,21 @@ class ResultatExplorationFragment : Fragment() {
                         (response.httpStatusCode == 200) ->{
                             var resultat = AndromiaExploration(result.get())
 
-
                             exploration.put("dateExploration", resultat.dateExploration )
                             exploration.put("locationDepart", location)
                             exploration.put("locationDestination", resultat.destination)
+                            exploration.put("runes", resultat.runes)
+                            exploration.put("unit",resultat.unit)
                             if (resultat.runes.length() > 0 ){
-                                //explorateur.put("runes", resultat.runes)
                                 AfficherRunesAcquise(resultat.runes)
                             }else{
                                 runesAcquises.visibility = View.GONE
                             }
 
                             if (resultat.unit.length() > 0 ){
-                                unitAAjouter.put("unit", resultat.unit)
                                 AfficherUnitResultatExploration(resultat.unit)
 
-                                if(calculerNombreRunes(resultat.unit)){
-                                    exploration_resultat_btn_Capturer.isEnabled = true
-                                }else {
-                                    exploration_resultat_btn_Capturer.isEnabled = false
-                                }
+                                exploration_resultat_btn_Capturer.isEnabled = calculerNombreRunes(resultat.unit)
                             } else {
                                 UnitResultatExploration.visibility = View.GONE
                                 exploration_resultat_btn_Capturer.isEnabled = false
