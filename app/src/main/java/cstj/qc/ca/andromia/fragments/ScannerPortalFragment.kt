@@ -17,7 +17,7 @@ class ScannerPortalFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var integrator = IntentIntegrator.forFragment(this)
-        integrator.setPrompt("Scanner votre prochaine exploration")
+        integrator.setPrompt(getString(R.string.scan_exploration))
         integrator.setBeepEnabled(false)
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
         integrator.setOrientationLocked(true)
@@ -35,7 +35,7 @@ class ScannerPortalFragment : Fragment() {
 
         } else {
             // On envoie une exception
-            listener!!.scanResultData(NoScanResultException("Exploration annulée!"))
+            listener!!.scanResultData(NoScanResultException(getString(R.string.exploration_cancelled)))
         }
     }
 

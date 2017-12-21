@@ -1,5 +1,6 @@
 package cstj.qc.ca.andromia.fragments
 
+import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.app.Fragment
 import android.content.Context
@@ -151,7 +152,7 @@ class EmplacementExplorateurFragment : Fragment() {
                 "indigo"->{
                     drawCurrentLocation(40,310,alpha)
                 }
-                "ilm garde"->{
+                "ilm arde"->{
                     drawCurrentLocation(265,705,alpha)
                 }
                 "cordisphère"->{

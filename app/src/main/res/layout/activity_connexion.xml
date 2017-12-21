@@ -38,6 +38,7 @@
             android:background="@drawable/black_rounded"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
+            android:maxLength="254"
             android:hint="@string/hint_email"
             android:layout_marginBottom="15dp">
         <requestFocus/>
@@ -53,6 +54,7 @@
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:background="@drawable/black_rounded"
+            android:maxLength="254"
             android:hint="@string/hint_password"/>
 
         <RelativeLayout

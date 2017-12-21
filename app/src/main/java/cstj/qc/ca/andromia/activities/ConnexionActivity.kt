@@ -43,10 +43,10 @@ class ConnexionActivity : AppCompatActivity(){
 
                     connecterExplorateur(explorateurJSON)
                 }else{
-                    login_et_password.error = "Le mot de passe ne peut pas être vide"
+                    login_et_password.error = getString(R.string.pwd_cannot_blank)
                 }
             }else{
-                login_et_email.error = "Le format du courriel est invalide"
+                login_et_email.error = getString(R.string.email_format_invalid)
             }
         }
     }
@@ -76,7 +76,7 @@ class ConnexionActivity : AppCompatActivity(){
                     }
                     login_et_password.text.clear()
                     hideKeyboard(container_login)
-                    Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,getString(R.string.email_or_pwd_invalid),Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     handleNoConnectionError(container_login)
@@ -94,7 +94,7 @@ class ConnexionActivity : AppCompatActivity(){
 
     fun handleNoConnectionError(view:View){
         hideKeyboard(view)
-        mSnackbar = Snackbar.make(view, "Connexion au serveur impossible", Snackbar.LENGTH_INDEFINITE)
+        mSnackbar = Snackbar.make(view, getString(R.string.connection_unavailable), Snackbar.LENGTH_INDEFINITE)
                 .setAction("Réessayer") {
                     onLoginClick(login_btn_signin)
                 }

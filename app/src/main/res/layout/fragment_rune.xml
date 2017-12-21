@@ -22,35 +22,37 @@
             android:contentDescription="@string/rune"/>
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="125dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center|top">
+            android:layout_margin="5dp">
 
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/type"/>
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type"
+                    android:layout_centerHorizontal="true"/>
 
-            <TextView
-                android:id="@+id/rune_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/type"
-                android:textAppearance="?attr/textAppearanceListItem" />
+                <TextView
+                    android:id="@+id/rune_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/type"
+                    android:layout_centerHorizontal="true"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="125dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center|top">
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/qte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="@string/quantite" />
 
             <TextView
@@ -58,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/qte"
+                android:layout_centerHorizontal="true"
                 android:textAppearance="?attr/textAppearanceListItem" />
         </RelativeLayout>
 

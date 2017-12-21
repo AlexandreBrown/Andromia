@@ -83,11 +83,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     else -> {
                         logout()
+                        Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }else{
             logout()
+            Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -109,20 +111,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         transaction.commit()
 
                     }
-                    (response.httpStatusCode in 400..499) -> {
-                        /*if(mSnackbar != null){
-                            mSnackbar!!.dismiss()
-                        }
-                        signup_et_password.text.clear()
-                        signup_et_confirm_password.text.clear()
-                        hideKeyboard(container_signup)
-                        Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()*/
-                    }
                     else -> {
-                        /*handleNoConnectionError(container_signup)*/
+                        logout()
+                        Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
                     }
                 }
             }
+        }
+        else{
+            logout()
+            Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -130,7 +128,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun scanResultData(codeContent: String) {
         val prefs = this.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
         val token:String = prefs.getString(EXPLORATEUR_KEY, "")
-        Toast.makeText(this,"Code content : $codeContent",Toast.LENGTH_LONG).show()
         Runnable {
             val transaction = fragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
@@ -181,7 +178,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mDialogRunes = RunesDialog.newInstance(mHrefExplorateur!!)
         }else{
             logout()
-            Toast.makeText(this,"Une erreur est survenue, veuillez vous reconnecter",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
         }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -217,11 +214,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     else -> {
                         logout()
+                        Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }else{
             logout()
+            Toast.makeText(this,getString(R.string.error_happened_please_reconnect),Toast.LENGTH_SHORT).show()
         }
     }
 

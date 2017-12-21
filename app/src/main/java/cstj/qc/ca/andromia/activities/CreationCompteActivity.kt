@@ -42,54 +42,58 @@ class CreationCompteActivity : AppCompatActivity() {
             if(signup_et_name.length() > 0){
                 if(Validator.emailValidator(signup_et_email.text.toString())){
                     if(signup_et_password.length() > 0){
-                        if(signup_et_confirm_password.length() > 0){
-                            if(signup_et_password.text.toString() == signup_et_confirm_password.text.toString()){
-                                var explorateurJSON = JSONObject()
-                                explorateurJSON.put("nom",signup_et_name.text.toString())
-                                explorateurJSON.put("courriel",signup_et_email.text.toString())
-                                explorateurJSON.put("motDePasse",signup_et_password.text.toString())
+                        if(signup_et_password.length() > 7){
+                            if(signup_et_confirm_password.length() > 0){
+                                if(signup_et_password.text.toString() == signup_et_confirm_password.text.toString()){
+                                    var explorateurJSON = JSONObject()
+                                    explorateurJSON.put("nom",signup_et_name.text.toString())
+                                    explorateurJSON.put("courriel",signup_et_email.text.toString())
+                                    explorateurJSON.put("motDePasse",signup_et_password.text.toString())
 
-                                val request = (BASE_URL +"inscription").httpPost()
-                                request.httpHeaders["Content-Type"] = "application/json"
-                                request.httpBody = explorateurJSON.toString().toByteArray()
-                                request.responseJson{ _, response, _ ->
-                                    when{
+                                    val request = (BASE_URL +"inscription").httpPost()
+                                    request.httpHeaders["Content-Type"] = "application/json"
+                                    request.httpBody = explorateurJSON.toString().toByteArray()
+                                    request.responseJson{ _, response, _ ->
+                                        when{
                                         // Si l'insertion à fonctionnée
-                                        (response.httpStatusCode == 201) ->{
-                                            var explorateurJSON = JSONObject()
-                                            explorateurJSON.put("username",signup_et_email.text.toString())
-                                            explorateurJSON.put("password",signup_et_password.text.toString())
+                                            (response.httpStatusCode == 201) ->{
+                                                var explorateurJSON = JSONObject()
+                                                explorateurJSON.put("username",signup_et_email.text.toString())
+                                                explorateurJSON.put("password",signup_et_password.text.toString())
 
-                                            connecterExplorateur(explorateurJSON)
-                                        }
-                                        (response.httpStatusCode in 400..499) -> {
-                                            if(mSnackbar != null){
-                                                mSnackbar!!.dismiss()
+                                                connecterExplorateur(explorateurJSON)
                                             }
-                                            signup_et_password.text.clear()
-                                            signup_et_confirm_password.text.clear()
-                                            hideKeyboard(container_signup)
-                                            Toast.makeText(this,"Votre courriel ou mot de passe est invalide",Toast.LENGTH_SHORT).show()
-                                        }
-                                        else -> {
-                                            handleNoConnectionError(container_signup)
+                                            (response.httpStatusCode in 400..499) -> {
+                                                if(mSnackbar != null){
+                                                    mSnackbar!!.dismiss()
+                                                }
+                                                signup_et_password.text.clear()
+                                                signup_et_confirm_password.text.clear()
+                                                hideKeyboard(container_signup)
+                                                Toast.makeText(this,getString(R.string.email_or_pwd_invalid),Toast.LENGTH_SHORT).show()
+                                            }
+                                            else -> {
+                                                handleNoConnectionError(container_signup)
+                                            }
                                         }
                                     }
+                                }else{
+                                    signup_et_confirm_password.error = getString(R.string.pwd_not_same)
                                 }
                             }else{
-                                signup_et_confirm_password.setError("Les mots de passe ne sont pas identiques")
+                                signup_et_confirm_password.error = getString(R.string.confirm_pwd)
                             }
                         }else{
-                            signup_et_confirm_password.setError("Veuillez confirmer votre mot de passe")
+                            signup_et_password.error = getString(R.string.pwd_must_be_x_char)
                         }
                     }else{
-                        signup_et_password.setError("Le mot de passe ne peut pas être vide")
+                        signup_et_password.error = getString(R.string.pwd_cannot_blank)
                     }
                 }else{
-                    signup_et_email.setError("Le format du courriel est invalide")
+                    signup_et_email.error = getString(R.string.email_format_invalid)
                 }
             }else{
-                signup_et_name.setError("Le nom ne peut pas être vide")
+                signup_et_name.error = getString(R.string.name_cannot_blank)
             }
         }
     }

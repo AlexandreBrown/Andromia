@@ -49,5 +49,16 @@
     <string name="explorer">Explorer</string>
     <string name="unit_s">Unités</string>
     <string name="explorations">Explorations</string>
+    <string name="error_happened_please_reconnect">Une erreur est survenue, veuillez vous reconnecter</string>
+    <string name="scan_exploration">Scanner votre prochaine exploration</string>
+    <string name="exploration_cancelled">Exploration annulée!</string>
+    <string name="pwd_cannot_blank">Le mot de passe ne peut pas être vide</string>
+    <string name="email_format_invalid">Le format du courriel est invalide</string>
+    <string name="email_or_pwd_invalid">Votre courriel ou mot de passe est invalide</string>
+    <string name="connection_unavailable">Connexion au serveur impossible</string>
+    <string name="name_cannot_blank">Le nom ne peut pas être vide</string>
+    <string name="confirm_pwd">Veuillez confirmer votre mot de passe</string>
+    <string name="pwd_not_same">Les mots de passe ne sont pas identiques</string>
+    <string name="pwd_must_be_x_char">Le mot de passe doit être au minimum 8 caractères de long</string>
 
 </resources>
