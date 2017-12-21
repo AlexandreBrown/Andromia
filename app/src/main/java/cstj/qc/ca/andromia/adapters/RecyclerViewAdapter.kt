@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.text.SimpleDateFormat
 
-/**
- * Created by Guillaume on 2017-12-12.
- */
+
 class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener: OnListItemFragmentInteractionListener?): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent:ViewGroup, viewType:Int): ViewHolder{
@@ -64,17 +62,17 @@ class RecyclerViewAdapter(private val mValues:List<Item>, private val mListener:
         private fun modifierCard(){
 
             // Affichage premier champ
-            mView.lblTitreChamp1.text = R.string.emplacementDepart.toString()
+            mView.lblTitreChamp1.text = mView.context.getString(R.string.emplacementDepart)
             mView.lblTitreChamp1.setPadding(10,0,0,0)
             mView.lblChamp1List.setPadding(10,0,0,0)
 
             //Affichage deuxième champ
-            mView.lblTitreChamp2.text = R.string.emplacementArrivee.toString()
+            mView.lblTitreChamp2.text = mView.context.getString(R.string.emplacementArrivee)
             mView.lblTitreChamp2.setPadding(10,0,0,0)
             mView.lblChamp2List.setPadding(10,0,0,0)
 
             // Affichage troisième champ
-            mView.lblTitreChamp3.text = R.string.dateExploration.toString()
+            mView.lblTitreChamp3.text = mView.context.getString(R.string.dateExploration)
             mView.lblTitreChamp3.setPadding(10,0,0,0)
             mView.lblChamp3List.setPadding(10,0,0,0)
 
