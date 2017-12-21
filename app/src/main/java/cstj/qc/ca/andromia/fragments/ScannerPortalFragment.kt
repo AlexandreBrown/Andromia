@@ -19,7 +19,8 @@ class ScannerPortalFragment : Fragment() {
         var integrator = IntentIntegrator.forFragment(this)
         integrator.setPrompt("Scanner votre prochaine exploration")
         integrator.setBeepEnabled(false)
-        integrator.setOrientationLocked(false)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+        integrator.setOrientationLocked(true)
         integrator.initiateScan()
     }
 
